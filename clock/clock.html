@@ -50,9 +50,9 @@
             height: 85px;
             box-sizing: border-box;
             background-color: #000;
-            top: 148px;
-            left: 148px;
-            transform-origin: top;
+            bottom: 148px;
+            right: 148px;
+            transform-origin: bottom;
             border-radius: 50px;
         }
         .fen{
@@ -61,9 +61,9 @@
             height: 100px;
             box-sizing: border-box;
             background-color: #000;
-            top: 148px;
-            left: 148px;
-            transform-origin: top;
+            bottom: 148px;
+            right: 148px;
+            transform-origin: bottom;
             border-radius: 50px;
         }
         .miao{
@@ -72,9 +72,9 @@
             height: 115px;
             box-sizing: border-box;
             background-color: #000;
-            top: 148px;
-            left: 148px;
-            transform-origin: top;
+            bottom: 148px;
+            right: 148px;
+            transform-origin: bottom;
             border-radius: 50px;
         }
     </style>
@@ -82,9 +82,9 @@
 <body>
     <div class="clock-wrapper">
         <div class="clock" id="circle">
-            <div class="shi"></div>
-            <div class="fen"></div>
-            <div class="miao"></div>
+            <div class="shi" id="hour"></div>
+            <div class="fen" id="minute"></div>
+            <div class="miao" id="second"></div>
         </div>
     </div>
     <script>
@@ -100,6 +100,25 @@
             }
             cir.innerHTML+=mark
         }
+        var hour = document.getElementById("hour")
+        var minute = document.getElementById("minute")
+        var second = document.getElementById("second")
+        function clock(){
+            var date = new Date();//获取当前时间
+            //时(0-23) 分(0-59)秒(0-59)
+            //计算转动角度
+            var hourDeg = date.getHours()*360/12;
+            var minuteDeg = date.getMinutes()*360/60;
+            var secondDeg = date.getSeconds()*360/60;
+            //console.log(hourDeg, minuteDeg, secondDeg);
+            //设置指针
+            hour.style.transform = 'rotate('+hourDeg+'deg)';
+            minute.style.transform = 'rotate('+minuteDeg+'deg)';
+            second.style.transform = 'rotate('+secondDeg+'deg)';
+
+        }
+            clock();
+            setInterval(clock,1000);
     </script>
 </body>
 </html>
