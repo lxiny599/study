@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聊天框</title>
+    <link rel="stylesheet" href="./iconfont/iconfont.css">
+    <style>
+        body{
+            background-color: #f2f2f2;
+        }
+        .weChat-wrapper{
+            display: flex;
+            width: 800px;
+            height: 554px;
+            margin: 80px auto;
+            box-shadow: 0 6px 20px rgba(0,0,0.3);
+        }
+        .box-left{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 56px;
+            height: 100%;
+            padding-top: 20px;
+            box-sizing: border-box;
+            background-color: #28292c;
+        }
+        .user-img{
+            width: 32px;
+            height: 32px;
+            background-color: #f00;
+        }
+        .user-icon{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 460px;
+            margin-top: 26px;
+        }
+        .top-icon{
+            width: 100%;
+            height: 210px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bottom-icon{
+            width: 100%;
+            height: 100px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .icon1{
+            font-size: 20px;
+            color: rgb(136, 134, 134);
+        }
+        .icon2{
+            font-size: 22px;
+        }
+        .icon3{
+            font-size: 30px;
+        }
+        .icon4{
+            font-size: 26px;
+        }
+        .box-middle{
+            display: flex;
+            flex-direction: column;
+            width: 236px;
+            height: 100%;
+            background-color: #e5e5e5;
+        }
+        .box-top{
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            height: 38px;
+            padding-top: 20px;
+            background-color: #e5e5e5;
+        }
+        .input-box{
+            display: flex;
+            width: 180px;
+            height: 24px;
+            border-radius: 5px;
+            background-color: #dad8d8;
+        }
+        .input{
+            outline: none;
+	        border: none;
+            background-color: transparent;
+        }
+        .icon5{
+            font-size: 16px;
+            color: #7d7b7b;
+        }
+        .icon6{
+            font-size: 12px;
+        }
+        .add{
+            width: 24px;
+            height: 24px;
+            border-radius: 3px;
+            text-align: center;
+            background-color: #dcd9d8;
+        }
+        .box-bottom{
+            flex: 1;
+            overflow-y: scroll;
+        }
+        .friend{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 10px 0 6px;
+            box-sizing: border-box;
+            width: 100%;
+            height: 60px;
+        }
+        .friend:hover{
+            background-color: #d1d1d1;
+            
+        }
+        .friend-box{
+            width: 40px;
+            height: 40px;
+            background-color: #0ff;
+        }
+        .friend-chat{
+            width: 166px;
+            height: 40px;
+        }
+        .friend-name{
+            display: inline-block;
+            width: 110px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 14px;
+            color: #23374d;
+        }
+        .friend-time{
+            float: right;
+            margin-top: 2px;
+            font-size: 10px;
+            color: #bdbcc0;
+        }
+        .friend-call{
+            display: inline-block;
+            width: 130px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            font-size: 12px;
+            color: #bab9b8;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        .box-right{
+            flex: 1;
+        }
+        .top-btn-wrapper{
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            height: 24px;
+            background-color: #f5f5f5;
+        }
+        .top-btn{
+            width: 28px;
+            line-height: 24px;
+            text-align: center;
+            color: #a9a9a9;
+        }
+        .top-btn:hover{
+            background-color: #e5e5e5;
+            color: #999;
+        }
+        .top-btn:last-child:hover{
+            background-color: #fa5151;
+            color: #f2f2f2;
+        }
+        .dialog-box{
+            display: flex;
+            flex-direction: column;
+            height: 530px;
+        }
+        .dialog-top{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px 0 30px;
+            box-sizing: border-box;
+            height: 33px;
+            border-bottom: 1px solid #e3e3e3;
+        }
+        .dialog-name{
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .dialog-middle{
+            flex: 1;
+            overflow-y: scroll;
+        }
+        .talk-time{
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+            display: inline-block;
+            /* margin: 5px 0; */
+            padding: 5px;
+            border-radius: 3px;
+            font-size: 12px;
+            color: #f9f5f4;
+            background-color: #d8d8d8;            
+        }
+        .atalk{
+            margin: 10px;
+            display: flex;
+        }
+        .atalk p{
+            position: relative;
+            max-width: 272px;
+            padding: 8px 10px;
+            margin: 0 0 0 6px;
+            border: 1px solid #efefef;
+            background-color: #fff;
+            font-size: 16px;
+            color: #333;
+        }
+        .atalk p::before{
+            position: absolute;
+            top: 8px;
+            left: -4px;
+            content: '';
+            width: 6px;
+            height: 6px;
+            transform: rotate(45deg);
+            background-color: #fff;
+            border: 1px solid ;
+            border-color: transparent transparent #efefef #efefef;
+        }
+        .a-img{
+            width: 34px;
+            height: 34px;
+            background-color: #f00;
+        }
+        .btalk{
+            margin: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .btalk p{
+            position: relative;
+            max-width: 272px;
+            padding: 8px 10px;
+            margin: 0 6px 0 0;
+            border: 1px solid #efefef;
+            background-color: #9eea6a;
+            font-size: 16px;
+            color: #333;
+        }
+        .btalk p::before{
+            position: absolute;
+            top: 8px;
+            right: -4px;
+            content: '';
+            width: 6px;
+            height: 6px;
+            transform: rotate(45deg);
+            background-color: #9eea6a;
+            border: 1px solid ;
+            border-color: #efefef #efefef transparent transparent;
+        }
+        .b-img{
+            width: 34px;
+            height: 34px;
+            background-color: #f00;
+        }
+        .dialog-bottom{
+            height: 135px;
+            padding:  0 24px;
+            border-top: 1px solid #e3e3e3;
+            box-sizing: border-box;
+        }
+        .text-box{
+            padding-top: 4px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            height: 36px;
+        }
+        .input-btn-left{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 110px;
+        }
+        .input-btn-right{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 50px;
+        }
+        .textarea{
+            width: 100%;
+            height: 60px;
+            border: 0;
+            outline: none;
+            resize: none;
+            background-color: transparent;
+        }
+        .send-btn{
+            float: right;
+            width: 60px;
+            margin-right: 6px;
+            line-height: 20px;
+            border: 2px solid #ebebeb;
+            border-radius: 3px;
+            font-size: 14px;
+            text-align: center;
+            color: #555159;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="weChat-wrapper">
+        <div class="box-left">
+            <div class="user-img"></div>
+            <div class="user-icon">
+                <div class="top-icon">
+                    <div class="iconfont icon-duihaoqipao2 icon1"></div>
+                    <div class="iconfont icon-ren icon1 icon2"></div>
+                    <div class="iconfont icon-fangkuai icon1"></div>
+                    <div class="iconfont icon-wenjian1 icon1 icon3"></div>
+                    <div class="iconfont icon-kanyikan- icon1 icon4"></div>
+                </div>
+                <div class="bottom-icon">
+                    <div class="iconfont icon-xiaochengxu icon1"></div>
+                    <div class="iconfont icon-shouji icon1"></div>
+                    <div class="iconfont icon-gengduo icon1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="box-middle">
+            <div class="box-top">
+                <div class="input-box">
+                    <i class="iconfont icon-fangdajing icon5"></i>
+                    <input class="input" type="text" placeholder="搜索">
+                </div>
+                <div class="add">+</div>
+            </div>
+            <div class="box-bottom">
+                <div class="friend">
+                    <div class="friend-box"></div>
+                    <div class="friend-chat">
+                        <div>
+                            <span class="friend-name">是花花_花城啊</span>
+                            <span class="friend-time">20/2/21</span>
+                        </div>
+                        <div class="friend-call">天官赐福天官赐福</div>
+                    </div>
+                </div>
+                <div class="friend">
+                    <div class="friend-box"></div>
+                    <div class="friend-chat">
+                        <div>
+                            <span class="friend-name">是花花_花城啊</span>
+                            <span class="friend-time">20/2/21</span>
+                        </div>
+                        <div class="friend-call">天官赐福天官赐福</div>
+                    </div>
+                </div>
+                <div class="friend">
+                    <div class="friend-box"></div>
+                    <div class="friend-chat">
+                        <div>
+                            <span class="friend-name">是花花_花城啊</span>
+                            <span class="friend-time">20/2/21</span>
+                        </div>
+                        <div class="friend-call">天官赐福天官赐福</div>
+                    </div>
+                </div>
+                <div class="friend">
+                    <div class="friend-box"></div>
+                    <div class="friend-chat">
+                        <div>
+                            <span class="friend-name">是花花_花城啊</span>
+                            <span class="friend-time">20/2/21</span>
+                        </div>
+                        <div class="friend-call">天官赐福天官赐福</div>
+                    </div>
+                </div>
+                <div class="friend">
+                    <div class="friend-box"></div>
+                    <div class="friend-chat">
+                        <div>
+                            <span class="friend-name">是花花_花城啊</span>
+                            <span class="friend-time">20/2/21</span>
+                        </div>
+                        <div class="friend-call">天官赐福天官赐福</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-right">
+            <div class="top-btn-wrapper">
+                <div class="top-btn iconfont icon-icon-test"></div>
+                <div class="top-btn">-</div>
+                <div class="top-btn iconfont icon-juxing icon6"></div>
+                <div class="top-btn">x</div>
+            </div>
+            <div class="dialog-box">
+                <div class="dialog-top">
+                    <div class="dialog-name">花城</div>
+                    <div class="iconfont icon-gengduo1 icon1 icon3"></div>
+                </div>
+                <div class="dialog-middle" id="chat">
+                    <div class="talk-time">18:36</div>
+                    <div class="atalk">
+                        <div class="a-img"></div>
+                        <p>风光无限是你，跌落尘埃是你，对我来说，风光无限是你，跌落尘埃也是你，重要的是你，而不是怎样的你。</p>
+                    </div>
+                    <div class="btalk">
+                        <p>风光无限是你，跌落尘埃是你，对我来说，风光无限是你，跌落尘埃也是你，重要的是你，而不是怎样的你。</p>
+                        <div class="b-img"></div>
+                    </div>
+                </div>
+                <div class="dialog-bottom">
+                    <div class="text-box">
+                        <div class="input-btn-left">
+                            <div class="iconfont icon-biaoqing icon1 icon4"></div>
+                            <div class="iconfont icon-wenjian icon1"></div>
+                            <div class="iconfont icon-jiandao icon1"></div>
+                            <div class="iconfont icon-qipao1 icon1"></div>
+                        </div>
+                        <div class="input-btn-right">                            
+                            <div class="iconfont icon-dianhua icon1"></div>
+                            <div class="iconfont icon-shipin icon1 icon2"></div>
+                        </div>
+                    </div>
+                    <textarea class="textarea" name="" id="" cols="30" rows="10"></textarea>
+                    <div class="send-btn">发送(S)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
