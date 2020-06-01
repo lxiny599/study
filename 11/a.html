@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>旋转轮播图</title>
+    <style>
+      body {
+        perspective: 1000px;
+      }
+      section {
+        width: 300px;
+        height: 200px;
+        margin: 100px auto;
+        background-color: #c8dd88;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: all 2s linear;
+      }
+      /* section:hover {
+        transform: rotateY(60deg);
+      } */
+      section div {
+        width: 100%;
+        height: 100%;
+        background-color: #fcc;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      section div:first-child {
+        transform: rotateY(0deg) translateZ(400px);
+      }
+      section div:nth-child(2) {
+        transform: rotateY(60deg) translateZ(400px);
+      }
+      section div:nth-child(3) {
+        transform: rotateY(120deg) translateZ(400px);
+      }
+      section div:nth-child(4) {
+        transform: rotateY(180deg) translateZ(400px);
+      }
+      section div:nth-child(5) {
+        transform: rotateY(240deg) translateZ(400px);
+      }
+      section div:nth-child(6) {
+        transform: rotateY(300deg) translateZ(400px);
+      }
+    </style>
+  </head>
+  <body>
+    <section id="box">
+      <div class="container"></div>
+      <div class="container"></div>
+      <div class="container"></div>
+      <div class="container"></div>
+      <div class="container"></div>
+      <div class="container"></div>
+    </section>
+    <script>
+      window.onload = function () {
+        var box = document.getElementById("box");
+        var jiaodu = 0;
+        var index = 1;
+        var timer = null;
+        function autoPlay() {
+          timer = setInterval(function () {
+            jiaodu = index++ * 30;
+            box.style.transform = `rotateY(${jiaodu}deg)`;
+            console.log(box);
+          }, 2000);
+        }
+        autoPlay();
+        var container = document.querySelectorAll(".container");
+        for (let i = 0; i < container.length; i++)
+          (function fun5(i) {
+            container[i].onmouseenter = function () {
+              clearInterval(timer);
+            };
+            container[i].onmouseleave = function () {
+              autoPlay();
+            };
+          })(i);
+        console.log(container);
+      };
+    </script>
+  </body>
+</html>
