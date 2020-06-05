@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-on</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+  </head>
+  <body>
+    <h1>v-on</h1>
+    <hr />
+    <!-- v-on 可以直接用@代替 -->
+    <!-- v-on:keyup.enter键盘上的回车事件 -->
+    <div id="app">
+      <div>{{count}}</div>
+      <input type="text" v-on:keyup.enter="onEnter" v-model="secondCount" />
+      <br />
+      <button v-on:click="add">加加</button>
+      <button @click="reduce">减减</button>
+    </div>
+    <script type="text/javascript">
+      var app = new Vue({
+        el: "#app",
+        data: {
+          count: 1,
+          secondCount: "",
+        },
+        methods: {
+          add() {
+            this.count++;
+          },
+          reduce() {
+            this.count--;
+          },
+          onEnter() {
+            this.count = this.count + parseInt(this.secondCount);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>v-for</title>
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+  </head>
+  <body>
+    <h1>v-for</h1>
+    <hr />
+    <!-- 需要循环那个html标签，v-for就放在哪个标签上 -->
+    <div id="app">
+      <ul>
+        <!-- <li v-for="item in list">{{item}}</li> -->
+        <li v-for="item in sortList">{{item}}</li>
+      </ul>
+      <hr />
+      <ul>
+        <!-- <li v-for="(item,index) in students"> -->
+        <li v-for="(item,index) in sortStudent">
+          {{index+1}}:{{item.name}}-----{{item.age}}
+        </li>
+      </ul>
+    </div>
+    <script type="text/javascript">
+      var app = new Vue({
+        el: "#app",
+        data: {
+          list: [20, 23, 18, 65, 32, 9, 5, 56, 41],
+          students: [
+            { name: "aaa", age: 32 },
+            { name: "bbb", age: 30 },
+            { name: "ccc", age: 21 },
+            { name: "ddd", age: 45 },
+          ],
+        },
+        computed: {
+          sortList() {
+            return this.list.sort(sortNumber);
+          },
+          sortStudent() {
+            return sortByKey(this.students, "age");
+          },
+        },
+      });
+      function sortNumber(a, b) {
+        return a - b;
+      }
+      function sortByKey(array, key) {
+        return array.sort(function (a, b) {
+          var x = a[key];
+          var y = b[key];
+          return x < y ? -1 : x > y ? 1 : 0;
+        });
+      }
+    </script>
+  </body>
+</html>

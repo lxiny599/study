@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>v-if&v-else&v-show</title>
     <script type="text/javascript" src="../assets/js/vue.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>v-if&v-else&v-show</h1>
-    <hr>
+    <hr />
     <div id="app">
-        <div v-if="isShow">显示</div>
-        <div v-else>相反</div>
+      <div v-if="isShow1">显示</div>
+      <div v-else>相反</div>
+      <div v-show="isShow2">show</div>
     </div>
+    <!-- v-if 和 v-show的区别  -->
+    <!-- v-if: 判断是否加载，可以减轻服务器的压力，在需要时加载。 -->
+    <!-- v-show: 调整css display属性，可以使客户端操作更加流畅 -->
     <script type="text/javascript">
-        var app = new Vue({
-            el: '#app',
-            data: {
-                isShow: false
-            }
-        })
+      var app = new Vue({
+        el: "#app",
+        data: {
+          isShow1: false,
+          isShow2: true,
+        },
+      });
     </script>
-</body>
+  </body>
 </html>
