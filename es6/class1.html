@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>class</title>
+</head>
+<body>
+    <script>
+        class One {
+            constructor(x,y){
+                this.x = x;
+                this.y = y;
+                this.showString()
+            }
+            showString(){
+                console.log(this.x+'----'+this.y)
+            }
+        }
+        var one = new One(1,3);
+    </script>
+</body>
+</html>

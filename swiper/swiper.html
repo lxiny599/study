@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>轮播图</title>
+    <style>
+        .box{
+            margin: 100px auto;
+            /* overflow: hidden; */
+        }
+        .swiper{
+            margin: 100px auto;
+            width: 1000px;
+            position: relative;
+            height: 220px;
+        }
+        .img-wrapper{
+            position: absolute;
+            width: 300px;
+            height: 220px;
+            float: left;
+            margin: 0;
+        }
+        .img-wrapper img{
+            width: 300px;
+            height: 220px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="swiper">
+            <!-- <div class="img-wrapper"><img src="5.jpg" alt=""></div> -->
+            <div class="img-wrapper"><img src="1.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="2.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="3.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="4.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="5.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="1.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="2.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="3.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="4.jpg" alt=""></div>
+            <div class="img-wrapper"><img src="5.jpg" alt=""></div>
+            <!-- <div class="img-wrapper"><img src="1.jpg" alt=""></div> -->
+        </div>
+    </div>
+
+    <script>
+        // var swiper = document.querySelector(".swiper");
+        // var swiperItem = document.querySelectorAll(".img-wrapper");
+        // var index = 0;
+        // function next_pic() {
+        //     index++;
+        //     if(index > 4){
+        //         index = 0;
+        //     }
+        //     var newLeft;
+        //     if(swiper.style.left === "-1200px"){
+        //         newLeft = 0;
+        //     }else{
+        //         newLeft = parseInt(swiper.style.left)-300;
+        //     }
+        //     swiper.style.left = newLeft + "px";
+        //     // fn();
+        // }
+        // function fn(){
+        //     for(let i=0;i<5;i++){
+        //         console.log(swiperItem[i])
+        //         console.log(i%2)
+        //         if(i%2==0){
+        //             swiperItem[i].style.transform=`translateX(${10*(i+1)}px) rotateY(${20*i}deg) translateY(${i*10}px)`
+        //         }else{
+        //             swiperItem[i].style.transform=`translateX(${10*(i+1)}px) rotateY(${-20*i}deg) translateY(${i*10}px)`
+        //         }
+        //     }
+        // }
+        // next_pic();
+        
+        // var timer = null;
+        // function autoPlay(){
+        //     timer = setInterval(function(){
+        //         next_pic();
+        //     },2000);
+        // }
+        // autoPlay();
+    </script>
+</body>
+</html>
