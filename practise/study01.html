@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>实现Observer模式</title>
+  </head>
+  <body>
+    <script>
+      function Observer() {
+        this.fns = [];
+      }
+      Observer.prototype = {
+        subscribe: function (fn) {
+          this.fns.push(fn);
+        },
+        unsubscribe: function (fn) {
+          this.fns = this.fns.filter(function (el) {
+            if (el !== fn) {
+              return el;
+            }
+          });
+        },
+        fire: function (o, thisObj) {
+          var scope = thisObj || window;
+          this.fns.forEach(function (el) {
+            el.call(scope, o);
+          });
+        },
+      };
+
+      var o = new Observer();
+
+      var fn1 = function (p) {
+        alert("fn1" + p);
+      };
+      var fn2 = function (p) {
+        alert("fn2" + p);
+      };
+      o.subscribe(fn1);
+      o.subscribe(fn2);
+      o.fire("xyz");
+    </script>
+  </body>
+</html>
