@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>双向绑定</title>
+</head>
+<body>
+    <div id="app">
+        <div>
+            <div v-text='myText'></div>
+            <div v-text='myBox'></div>
+            <input type="text" v-model='myText'>
+        </div>
+    </div>
+    <script>
+        class Vue{
+            constructor(options){
+                this.options = options;
+                this.$data = options.data;
+                this.$el = document.querySelector(options.el);
+                this._directive = {};
+                this.Observer(this.$data);
+                this.Complie(this.$el);
+            }
+
+            // 劫持数据
+            Observer(data){
+                for(let key in data){
+                    this._directive[key] = [];
+                    console.log(this._directive)
+                    console.log(key)
+                    let Val = data[key];
+                    let watch = this._directive[key];
+                    Object.defineProperty(this.$data, key, {
+                        get: function(){
+                            return Val;
+                        },
+                        set: function(newVal){
+                            if(newVal !== Val){// 新值不等于老值
+                                Val = newVal;
+                                // 更新视图
+                                console.log(watch,'watch')
+                                watch.forEach(element => {
+                                    element.update();
+                                });
+                            }
+                        }
+                    })
+                }
+            }
+            // 解析指令
+            Complie(el){
+                let nodes = el.children;
+                for(let i=0; i<nodes.length; i++){
+                    let node = nodes[i];
+                    if(nodes[i].children){
+                        this.Complie(nodes[i]);
+                    }
+                    if(node.hasAttribute('v-text')){
+                        console.log(111)
+                        let attrVal = node.getAttribute('v-text');
+                        this._directive[attrVal].push(new Watcher(node, this, attrVal, 'innerHTML'));
+                        console.log(this._directive);
+                    }
+                    if(node.hasAttribute('v-model')){
+                        let attrVal = node.getAttribute('v-model');
+                        this._directive[attrVal].push(new Watcher(node, this, attrVal, 'value'));
+                        node.addEventListener('input',(function(){
+                            return function(){
+                                console.log(111);
+                                this.$data[attrVal] = node.value;
+                            }
+                        })().bind(this));
+                    }
+                }
+            }  
+        }
+        // 订阅者
+        class Watcher{
+            // div.innerHTML = vue对象.$data['myText'];
+            constructor(el, vm, exp, attr){
+                this.el = el;
+                this.vm = vm;
+                this.exp = exp;
+                this.attr = attr;
+                this.update();
+            }
+            update(){
+                this.el[this.attr] = this.vm.$data[this.exp];
+            }
+        }
+
+        const app = new Vue({
+            el: '#app',
+            data:{
+                myText: '数据响应式',
+                myBox: '我是一个盒子'
+            }
+        })
+    </script>
+</body>
+</html>
