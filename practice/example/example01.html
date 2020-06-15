@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>单例模式</title>
+  </head>
+  <body>
+    <div id="loginBtn">loginBtn</div>
+    <script>
+      /**
+       * 定义：是保证一个类只有一个实例，并且提供一个访问它的全局访问点。
+       * 需求：一些对象我们往往只需一个，比如线程池、全局缓存、浏览器种的window对象、登录浮窗等。
+       * 实现：用一个变量标识当前是否已经为某个类创建过对象，如果是，则在下一次获取这个类的实例时，直接返回之前创建的对象。
+       * 优点：可以用来划分命名空间，减少全局变量的数量
+       *      可以被实例化，且实例化一次，再次实例化生成的也是第一个实例
+       */
+
+      // 基础例子
+      // 单例模式
+      var Singleton = function (name) {
+        this.name = name;
+        this.instance = null;
+      };
+      Singleton.prototype.getName = function () {
+        return this.name;
+      };
+      // 获取实例对象
+      Singleton.getInstance = function (name) {
+        if (!this.instance) {
+          this.instance = new Singleton(name);
+        }
+        return this.instance;
+      };
+      // 测试单例模式的实例
+      var a = Singleton.getInstance("aa");
+      var b = Singleton.getInstance("bb");
+      console.log(a === b); // true
+
+      // 实践例子
+      (function () {
+        // 管理单例的逻辑代码，如果没有数据则创建，有数据则返回
+        var getSingle = function (fn) {
+          // 参数为创建对象的方法
+          var result;
+          return function () {
+            // 判断是Null或者赋值
+            return result || (result = fn.apply(this, arguments));
+          };
+        };
+        // 创建登录窗口方法
+        var createLoginLayer = function () {
+          var div = document.createElement("div");
+          div.innerHTML = "我是登录浮窗";
+          div.style.display = "none";
+          document.body.appendChild(div);
+          return div;
+        };
+        // 单例方法
+        var createSingleLoginLayer = getSingle(createLoginLayer);
+        // 使用惰性单例。进行创建
+        document.getElementById("loginBtn").onclick = function () {
+          var loginLayer = createSingleLoginLayer();
+          loginLayer.style.display = "block";
+        };
+      })();
+    </script>
+  </body>
+</html>
