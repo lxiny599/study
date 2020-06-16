@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>工厂模式</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 定义：将其成员对象的实例化推迟到子类来实现的类。
+       * 需求：创建对象的流程赋值的时候，比如依赖于很多设置文件等；处理大量具有相同属性的小对象；注：不能滥用
+       * 优点：不暴露创建对象的具体逻辑，而是将逻辑封装在一个函数中。
+       * 分类：简单工厂，工厂方法和抽象工厂。
+       */
+
+      // 实现
+      // 1）简单工厂模式（创建单一对象，需要的类比较少）
+      // let UserFactory = function (role) {
+      //   function SuperAdmin() {
+      //     this.name = "超级管理员";
+      //     this.viewPage = ["首页", "通讯录", "发现页", "应用数据", "权限管理"];
+      //   }
+      //   function Admin() {
+      //     this.name = "管理员";
+      //     this.viewPage = ["首页", "通讯录", "发现页", "应用数据"];
+      //   }
+      //   function NormalUser() {
+      //     this.name = "普通用户";
+      //     this.viewPage = ["首页", "通讯录", "发现页"];
+      //   }
+      //   switch (role) {
+      //     case "superAdmin":
+      //       return new SuperAdmin();
+      //       break;
+      //     case "admin":
+      //       return new Admin();
+      //       break;
+      //     case "user":
+      //       return new NormalUser();
+      //       break;
+      //     default:
+      //       throw new Error("参数错误，可选参数:superAdmin、admin、user");
+      //   }
+      // };
+
+      // 2）工厂方法模式（创建多类对象，需要的类比较多）
+      // 为方便后续新增类，只需改一处代码，封装了工厂方法而已。并且把类都放在工厂类原型中实现。
+
+      //安全模式创建的工厂方法函数
+      let UserFactory = function (role) {
+        if (this instanceof UserFactory) {
+          var s = new this[role]();
+          return s;
+        } else {
+          return new UserFactory(role);
+        }
+      };
+      // 工厂方法函数的原型中设置所有对象的构造函数
+      UserFactory.prototype = {
+        SuperAdmin: function () {
+          this.name = "超级管理员";
+          this.viewPage = ["首页", "通讯录", "发现页", "应用数据", "权限管理"];
+        },
+        Admin: function () {
+          this.name = "管理员";
+          this.viewPage = ["首页", "通讯录", "发现页", "应用数据"];
+        },
+        NormalUser: function () {
+          this.name = "普通用户";
+          this.viewPage = ["首页", "通讯录", "发现页"];
+        },
+      };
+      // 调用
+      let superAdmin = UserFactory("SuperAdmin");
+      let admin = UserFactory("Admin");
+      let normalUser = UserFactory("NormalUser");
+
+      // 3）抽象工厂模式（创建父类，子类继承父类，具体实现在子类）
+      // 抽象工厂其实是实现子类继承父类的方法，只是一个方法。
+      // 抽象工厂模式一般用在多人协作的超大型项目中，并且严格的要求项目以面向对象的思想进行完成。
+
+      // 抽象工厂方法
+      var VehicleFactory = function (subType, superType) {
+        // 判断抽象工厂中是否有该抽象类
+        if (typeof VehicleFactory[superType] === "function") {
+          // 缓存类
+          function F() {}
+          // 继承父类属性和方法
+          F.prototype = new VehicleFactory[superType]();
+          // 将子类constructor 指向子类
+          subType.constructor = subType;
+          // 子类原型继承“父类”
+          subType.prototype = new F();
+        } else {
+          // 不存在该抽象类抛出错误
+          throw new Error("未创建该抽象类");
+        }
+      };
+
+      // 小汽车抽象类
+      VehicleFactory.Car = function () {
+        this.type = "car";
+      };
+      VehicleFactory.Car.prototype = {
+        getPrice: function () {
+          return new Error("抽象方法不能调用");
+        },
+        getSpeed: function () {
+          return new Error("抽象方法不能调用");
+        },
+      };
+
+      // 公交车抽象类
+      VehicleFactory.Bus = function () {
+        this.type = "bus";
+      };
+      VehicleFactory.Bus.prototype = {
+        getPrice: function () {
+          return new Error("抽象方法不能调用");
+        },
+        getSpeed: function () {
+          return new Error("抽象方法不能调用");
+        },
+      };
+
+      // 货车抽象类
+      VehicleFactory.Truck = function () {
+        this.type = "truck";
+      };
+      VehicleFactory.Truck.prototype = {
+        getPrice: function () {
+          return new Error("抽象方法不能调用");
+        },
+        getSpeed: function () {
+          return new Error("抽象方法不能调用");
+        },
+      };
+
+      // 创建产品子类继承相应的产品族抽象类
+      // 宝马汽车子类
+      var BMW = function (price, speed) {
+        this.price = price;
+        this.speed = speed;
+      };
+      // 抽象工厂实现对Car抽象类的继承
+      VehicleFactory(BMW, "Car");
+      BMW.prototype.getPrice = function () {
+        return this.price;
+      };
+      // 公交车...
+      // 货车...
+    </script>
+  </body>
+</html>
