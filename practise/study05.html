@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS渐变色</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(70deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400%;
+        animation: bganimation 5s infinite;
+      }
+      .btn {
+        color: #fff;
+        text-align: center;
+        text-transform: uppercase;
+        margin: 400px 0;
+        font-size: 22px;
+      }
+      @keyframes bganimation {
+        0% {
+          background-position: 50% 50%;
+        }
+        50% {
+          background-position: 100% 100%;
+        }
+        100% {
+          background-position: 50% 50%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="btn">
+      <p>自动渐变颜色</p>
+    </div>
+  </body>
+</html>
