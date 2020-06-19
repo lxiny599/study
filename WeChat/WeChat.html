@@ -6,14 +6,22 @@
     <title>聊天框</title>
     <link rel="stylesheet" href="./iconfont/iconfont.css">
     <style>
+        html{
+            height: 100%;
+        }
         body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
             background-color: #f2f2f2;
+            width: 100%;
+            height: 100%;
         }
         .weChat-wrapper{
             display: flex;
             width: 800px;
             height: 554px;
-            margin: 80px auto;
+            margin: auto auto;
             box-shadow: 0 6px 20px rgba(0,0,0.3);
         }
         .box-left{
@@ -330,7 +338,7 @@
     </style>
 </head>
 <body>
-    <div class="weChat-wrapper">
+    <div id="weChat" class="weChat-wrapper">
         <div class="box-left">
             <div class="user-img"></div>
             <div class="user-icon">
@@ -414,7 +422,7 @@
                 <div class="top-btn iconfont icon-icon-test"></div>
                 <div class="top-btn">-</div>
                 <div class="top-btn iconfont icon-juxing icon6"></div>
-                <div class="top-btn">x</div>
+                <div id="close" class="top-btn">x</div>
             </div>
             <div class="dialog-box">
                 <div class="dialog-top">
@@ -451,5 +459,18 @@
             </div>
         </div>
     </div>
+    
+
+    <div id="isShow">显示/隐藏</div>
+    <script>
+        var isShow = document.getElementById('isShow')
+        var close = document.getElementById('close')
+        close.onclick = function(){
+            document.getElementById('weChat').style.display='none'
+        }
+        isShow.onclick = function(){
+            document.getElementById('weChat').style.display='flex'
+        }
+    </script>
 </body>
 </html>
