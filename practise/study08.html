@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原型与原型链</title>
+  </head>
+  <body>
+    <script>
+      /**
+       * 一、什么是原型
+       * 原型：每个JavaScript对象（除null外）创建的时候，都会与之关联另一个对象，这个对象就是我们所说的原型，每一个对象都会从原型中“继承”属性。
+       */
+
+      /**
+       * 二、prototype
+       * 在JavaScript中，每个函数都有一个prototype属性，这个属性指向函数的原型对象。
+       */
+
+      /**
+       * cat1和cat2实例化了Animal,在cat1和cat2本身是没有height属性的，但是能打印吃height的值均为10，其实是cat1和cat2继承了原型Animal。prototype中的height属性
+       */
+      // 例子：
+      // function Animal(weight) {
+      //   this.weight = weight;
+      // }
+      // Animal.prototype.height = 10;
+      // let cat1 = new Animal();
+      // let cat2 = new Animal();
+      // console.log(cat1.height); // 10
+      // console.log(cat2.height); // 10
+
+      /**
+       * 三、__proto__
+       * 这是每个对象（除null外）都会有的属性，这个属性会指向该对象的原型
+       */
+      // 例子：
+      // function Animal(weight) {
+      //   this.weight = weight;
+      // }
+      // let cat1 = new Animal();
+      // let cat2 = new Animal();
+      // console.log(cat1.__proto__ === Animal.prototype); // true
+      // console.log(cat2.__proto__ === Animal.prototype); // true
+
+      /**
+       * __proto__是实例指向原型的属性
+       * prototype是对象或构造函数指向原型的属性
+       */
+
+      /**
+       * 四、constructor
+       * 每个原型都有一个constructor属性，指向该关联的构造函数
+       */
+      // 例子：
+      // function Animal(weight) {
+      //   this.weight = weight;
+      // }
+      // let cat1 = new Animal();
+      // console.log(cat1.__proto__ === Animal.prototype); // true
+      // console.log(Animal === Animal.prototype.constructor); // true
+      // console.log(Object.getPrototypeOf(cat1) === Animal.prototype); // true
+
+      /**
+       * cat1.__proto__ === Animal.prototype
+       * Animal === Animal.prototype.constructor
+       * 那么cat1.constructor === Animal为true吗？
+       * 答案是true,因为每一个对象都会从原型中“继承”属性，cat1中并没有属性constructor，但是它的原型cat1.__proto__指向的是Animal.prototypr,然而Animal.prototype原型中式有属性constructor,于是cat1的constructor属性继承与原型中的constructor属性。
+       */
+
+      /**
+       * 五、实例与原型
+       * 当读取实例的属性时，如果找不到，就会查找与对象关联的原型中的属性，如果还查不到，就去找原型的原型，一直找到最顶层为止，这样就形成了原型链。
+       */
+      // 例子：
+      // function Animal(weight) {
+      //   this.weight = weight;
+      // }
+      // Animal.prototype.name = "Animal";
+      // let cat1 = new Animal();
+      // cat1.name = "littleCat";
+      // console.log(cat1.name); // littleCat
+      // delete cat1.name;
+      // console.log(cat1.name); // Animal
+
+      // 可以看见，删除属性前，那么是littleCat，删除属性后，该实例没有name属性，找不到name属性的时候，它就会去它的对象原型中去找，也就是去cat1.__proto__中也就是Animal.prototype中去寻找，而Animal.prototype中的name属性的值是animal,所以删除name属性后的值变成了原型中属性name的值animal
+
+      /**
+       * 六、原型的原型
+       * 我们说原型是对象创建的时候关联的另一个对象，那么原型也是一个对象，既然是对象那么原型也应该关联一个对象时原型的原型
+       * 那么原型对象创建的时候也会关联一个对象
+       */
+
+      //那么Object.prototype的原型，也就是Object.prototype.__proto__是什么
+
+      // 例子：
+      // console.log(Object.prototype.__proto__ === null); // true
+
+      // 也就是说 Object.prototype.__proto__ 的值为 null 即 Object.prototype 没有原型，所以可以想象在原型链中，当属性找到顶层原型都没有属性那就是没有这个属性
+
+      /**
+       * 七、原型链
+       * 综上所述，将原型的实例赋值给另一个对象，另一个对象再赋值给其他的对象，在实际的代码中对对象不同的赋值，就会形成一条原型链。
+       */
+
+      // 例子：
+      function Animal(weight) {
+        this.weight = weight;
+      }
+      Animal.prototype.name = "animal";
+      let cat1 = new Animal();
+      let pinkCat = cat1;
+      console.log(pinkCat.name); // animal
+      console.log(pinkCat.__proto__ === cat1.__proto__); // true
+      console.log(cat1.__proto__ === Animal.prototype); // true
+      console.log(pinkCat.__proto__ === Animal.prototype); // true
+      let samllPinkCat = pinkCat;
+      console.log(samllPinkCat.name); // animal
+      console.log(samllPinkCat.__proto__ === pinkCat.__proto__); // true
+      console.log(pinkCat.__proto__ === cat1.__proto__); // true
+      console.log(cat1.__proto__ === Animal.prototype); // true
+      console.log(samllPinkCat.__proto__ === Animal.prototype); // true
+
+      // 以上就是原型链一层一层链接上去形成一条链条就是所谓的原型链；以上cat1实例化了Animal，cat1赋值给了pinkCat，pinkCat又赋值给了samllPinkCat，就形成了原型链，从samllPinkCat，pinkCat到cat1最后到Animal
+    </script>
+  </body>
+</html>
