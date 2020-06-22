@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链表</title>
+</head>
+<body>
+    <script>
+        /**
+        * 链表的几个特点
+        * 1.可以动态的扩展空间（在js中数组也是这样的，但是在有的语言中数组的长度是固定的，不能动态添加）
+        * 2.需要一个头节点
+        * 3.需要知道下一个节点的地址
+        */
+
+        function LinkedList(){
+            // 辅助类表示要加入链表的项
+            let Node = function(element){
+                this.element = element;
+                this.next = null; // 这个节点的下一个节点暂时为空
+            }
+            let length = 0;
+            let head = null;
+
+            this.append = function(element){}; // 向链表的尾部添加节点
+            this.insert = function(position,element){}; // 在指定位置添加节点
+            this.remove = function(element){}; // 将指定的节点删除
+            this.removeAt = function(position){}; // 将指定位置的节点删除
+            this.searchElement = function(element){}; // 查找指定元素的位置
+            this.searchPosition = function(position){}; // 查找指定位置的元素
+        }
+
+        // 实现增加节点的操作
+
+        // 在尾节点处添加节点
+        function append(element){
+            let node = new Node(element); // 根据传入的元素定义一个节点，该元素作为节点的值
+            let current; // 定义一个变量表示当前的节点
+            // 判断是否含有头节点，如果没有头节点，则说明该链表没有值，将传进来的这个值作为头节点；否则对链表进行遍历，找到最后一个节点，将其next属性赋值为新曾的节点
+            if(head === null){
+                head = node;
+            }else{
+                current = head
+                while(current.next){
+                    current = current.next
+                }
+                current.next = node
+            }
+            length++; // 链表的长度加1
+        }
+
+        // 在任意位置添加节点
+        // 将这个位置的前一个节点的next属性赋值为这个节点，并将它原先的下一个节点保存下来，赋值给现在这个节点的next属性
+        function insert(position,elemnt){
+            if (position >= 0 && position <= length){
+                // 当position等于length是，表示在尾节点处添加，包含append方法
+                let node = Node(element);
+                let current = head;
+                let previous; // 当前节点的前一个结点，在position处添加节点，就是在current和previous之间添加节点
+                if (position === 0){
+                    node.next = head;
+                    head = node
+                } else {
+                    for (let i = 0; i < position; i++) {
+                        previous = current;
+                        current = current.next;
+                    }
+                    previous.next = node;
+                    node.next = current;
+                }
+                length++
+                return true
+            } else {
+                return false
+            }
+        }
+        /**
+        * 代码分析：
+        * 1.检查position是否越界，如果没有越界，则创建一个节点
+        * 2.定义一个遍历表示当前的节点，初始化为头节点，表示从头节点开始遍历；一个变量表示当前节点的前一个节点，作用是插入节点时方便找到前一个节点
+        * 3.判断是否在头节点前添加，如果是就将头节点赋给node的next属性，并且头节点改为这个节点；否则，遍历出这个位置的节点，将该节点插入到这个位置的节点前面
+        * 4.链表长度加1
+        */
+
+        // 实现删除节点的操作
+        // 基本思路：删除节点的操作就是将目标节点前面那个节点的指针指向目标节点的下一个节点
+
+        // 删除指定节点
+        function remove(element){
+            let node = new Node(elemnt);
+            let previous;
+            let nextNode;
+            let current = head;
+            if (head !== null){
+                while(current !== null){
+                    previous = current;
+                    current = current.next;
+                    nextNode = current.next;
+                }
+                previous.next = nextNode;
+                length--;
+                return true;
+            } else {
+                return false;
+            }
+        }
+        // 代码分析：重点在于抓住需要哪些节点，并且进行这个操作需要改变什么，判断条件是怎么样的
+
+        // 删除指定位置的节点
+        function removeAt(poaition){
+            // 判断所给位置是否溢出
+            if (poaition > -1 && poaition < length){
+                let current = head;
+                let previous;
+                let nextNode;
+                let i = 0;
+                while(i < poaition){
+                    previous = current;
+                    current = current.next;
+                    nextNode = current.next;
+                }
+                previous.next = nextNode;
+                length--;
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // 实现查询节点的操作
+        // 其实查询节点和删除节点差不多，都是通过遍历，找到相应的节点或者相应的位置
+
+        // 查询某个位置是哪个节点
+        function searchElement(element){
+            // 输入元素，找到该元素返回该元素的位置
+            if (head !== null){
+                let node = new Node(element);
+                let current;
+                let index = 0;
+                if (head === 0){
+                    return 0;
+                } else {
+                    current = head;
+                    while(current !== node){
+                        current = current.next;
+                        index++;
+                    }
+                    return index;
+                }
+            } else {
+                return -1;
+            }
+        }
+        
+        // 查询某个节点在哪个位置
+        function searchPosition(position){
+            // 查找某一个位置的元素是什么
+            if(position > -1 && position < length){
+                let i = 0;
+                let current = head;
+                while(i < position){
+                    current = current.next;
+                    i++;
+                }
+                return current;
+            } else {
+                return null;
+            }
+        }
+
+
+        /**
+        * 链表的核心：
+        * 1.链表中节点可以看作一个对象，有两个属性值，一个是节点值，一个是指针
+        * 2.链表的增删就是改变指针指向
+        * 3.链表查找时，重点是current = current.next
+        */ 
+        
+    </script>
+</body>
+</html>
