@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .train{
+            display: flex;
+            margin-top: 10px;
+        }
+        .train .train-item{
+            position: relative;
+            width: 100px;
+            height: 60px;
+            margin-right: 10px;
+            background-color: #00f000;
+            line-height: 60px;
+            text-align: center;
+        }
+        .train .train-item::after{
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            content: '';
+            width: 10px;
+            height: 3px;
+            background: #000;
+        }
+        .train-item:last-child::after{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="input">
+    <button id="btn">删除尾部</button>
+    <div class="train" id="train"></div>
+
+
+    <script>
+        function Node(element) {
+            this.element = element;
+            this.next = null;
+        }
+        function List() {
+            this.head = new Node("head");
+            this.find = find;
+            this.insert = insert;
+            this.display = display;
+            this.remove = remove;
+            this.findPrevious = findPrevious;
+        }
+
+        function find(item) {
+            let currNode = this.head;
+            while(currNode && (currNode.element != item)){
+                currNode = currNode.next;
+            }
+            if(currNode) {
+                return currNode;
+            }else{
+                let currNode2 = this.head;
+                while(currNode2.next){
+                    currNode2 = currNode2.next;
+                }
+                return currNode2;
+            }
+        }
+
+        function findPrevious(item) {
+            let currNode = this.head;
+            while(currNode.next && currNode.next.element != item){
+                currNode = currNode.next;
+            }
+            if(currNode.next) {
+                return currNode;
+            }else{
+                return false;
+            }
+        }
+
+        function insert(newElement,item) {
+            let newNode = new Node(newElement);
+            var pos = this.find(item);
+            newNode.next = pos.next;
+            pos.next = newNode;
+        }
+
+        function remove(item) {
+            let prevNode = this.findPrevious(item);
+            if(prevNode){
+                prevNode.next = prevNode.next.next
+            }
+        }
+
+        function display() {
+            let currNode = this.head;
+            while(currNode.next != null){
+                // console.log(currNode.next.element);
+                currNode = currNode.next;
+            }
+        }
+
+        //测试
+        var myList=new List();
+        myList.insert("aa","head"); //如果没找到要插入的位置，则插入到最后
+        myList.insert("bb","aa");
+        myList.insert("cc","bb");
+        myList.display();
+        myList.remove("cc");
+        console.log("删除后：");
+        myList.display();
+        console.log(myList.head)
+
+        
+
+
+
+        let train = document.getElementById('train');
+        let input = document.getElementById('input');
+        let btn = document.getElementById('btn');
+        input.addEventListener("keyup", function(event) {
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                console.log(input.value)
+                myList.insert(input.value,"");
+                show()
+            }
+        });
+        btn.onclick = function(){
+            let current = myList.head
+            while(current.next != null){
+                current = current.next
+            }
+            show()
+        }
+        function show(){
+            let current = myList.head
+            let str = ''
+            while(current.next != null){
+                str += `<div class="train-item">${current.next.element}</div>`
+                current = current.next
+            }
+            train.innerHTML = str
+        }
+        show()
+    </script>
+</body>
+</html>
