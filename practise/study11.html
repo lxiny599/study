@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>闪亮的心心</title>
+  <style>  
+    span{
+      position: absolute;
+    }
+    img{
+        transform: scale(0.05);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="dv"></div>
+  <!-- <img src="./image/timg.png"> -->
+  <script>
+       setInterval(function () {       
+        document.getElementById("dv").innerHTML=`<span><img src=${"./image/timg.png"}></span>`;
+        var span=document.querySelector("span");
+        var dv=document.getElementById("dv");
+
+        for(i=0;i<100;i++){
+          var sp= span.cloneNode(true);
+           dv.appendChild(sp);
+
+           var r = Math.random();
+           var y = parseInt(Math.random() * 1000);
+           var x = parseInt(Math.random() *500);
+
+        //    document.getElementById("dv").firstElementChild.style.transform=`scale(${r})`;
+           document.getElementById("dv").firstElementChild.style.left = y + "px";
+           document.getElementById("dv").firstElementChild.style.top = x + "px";
+        }       
+      },500);
+  </script>
+</body>
+
+</html>

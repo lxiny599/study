@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise</title>
+</head>
+<body>
+    <script>
+        // // all的用法
+        // function promiseClick1() {
+        //     let p = new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             let num = Math.ceil(Math.random()*20); // 生成1~10的随机数
+        //             console.log('随机数生成的值：', num)
+        //             if(num <= 10){
+        //                 resolve(num);
+        //             } else {
+        //                 reject('数字大于10了即将执行失败回调');
+        //             }
+        //         },2000);
+        //     })
+        //     return p
+        // }
+
+        // function promiseClick2() {
+        //     let p = new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             let num = Math.ceil(Math.random()*20); // 生成1~10的随机数
+        //             console.log('随机数生成的值：', num)
+        //             if(num <= 10){
+        //                 resolve(num);
+        //             } else {
+        //                 reject('数字大于10了即将执行失败回调');
+        //             }
+        //         },2000);
+        //     })
+        //     return p
+        // }
+
+        // function promiseClick3() {
+        //     let p = new Promise(function(resolve, reject) {
+        //         setTimeout(function() {
+        //             let num = Math.ceil(Math.random()*20); // 生成1~10的随机数
+        //             console.log('随机数生成的值：', num)
+        //             if(num <= 10){
+        //                 resolve(num);
+        //             } else {
+        //                 reject('数字大于10了即将执行失败回调');
+        //             }
+        //         },2000);
+        //     })
+        //     return p
+        // }
+
+        // Promise.all([promiseClick1(), promiseClick2(), promiseClick3()]).then(function(results){
+        //     console.log(results);
+        // })
+
+
+
+
+        // race的用法
+        function promiseClick1() {
+            let p = new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    let num = Math.ceil(Math.random()*20); // 生成1~10的随机数
+                    console.log('随机数生成的值：', num)
+                    if(num <= 10){
+                        resolve(num);
+                    } else {
+                        reject('2s数字大于10了即将执行失败回调');
+                    }
+                },2000);
+            })
+		   return p
+        }
+        
+        function promiseClick2() {
+            let p = new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    let num = Math.ceil(Math.random()*20); // 生成1~10的随机数
+                    console.log('随机数生成的值：', num)
+                    if(num <= 10){
+                        resolve(num);
+                    } else {
+                        reject('3s数字大于10了即将执行失败回调');
+                    }
+                },3000);
+            })
+		   return p
+        }
+        
+        function promiseClick3() {
+            let p = new Promise(function(resolve, reject) {
+                setTimeout(function() {
+                    let num = Math.ceil(Math.random()*20); // 生成1~10的随机数
+                    console.log('随机数生成的值：', num)
+                    if(num <= 10){
+                        resolve(num);
+                    } else {
+                        reject('4s数字大于10了即将执行失败回调');
+                    }
+                },4000);
+            })
+		   return p
+        }
+
+        Promise.race([promiseClick1(), promiseClick2(), promiseClick3()]).then(function(results) {
+			console.log('成功',results);
+        },function(reason) {
+			console.log('失败',reason);
+        })
+
+    </script>
+</body>
+</html>
