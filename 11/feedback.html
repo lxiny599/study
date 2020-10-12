@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>意见反馈</title>
+    <style>
+      /* * {
+        margin: 0;
+        padding: 0;
+      } */
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        min-height: 100vh;
+        background-color: #f2f2f2;
+        padding: 12px;
+        box-sizing: border-box;
+      }
+      .feedback-wrapper .textarea {
+        width: 100%;
+        height: 210px;
+        padding: 17px 15px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 14px;
+        font-weight: 500;
+        outline: none;
+        resize: none;
+        border: 0;
+        line-height: 20px;
+      }
+      .feedback-wrapper .submit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: 100%;
+        height: 44px;
+        margin-top: 16px;
+        background: linear-gradient(-81deg, #fd3d44 0%, #fc6682 100%);
+        border-radius: 24px;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 18px;
+        color: #fff;
+      }
+      .success {
+        padding: 6px;
+        display: none;
+        width: 100px;
+        height: 40px;
+        position: fixed;
+        top: 300px;
+        left: 50%;
+        color: #fff;
+        border-radius: 6px;
+        text-align: center;
+        line-height: 38px;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .fail {
+        padding: 6px;
+        display: none;
+        width: 140px;
+        height: 60px;
+        position: fixed;
+        top: 300px;
+        left: 50%;
+        color: #fff;
+        border-radius: 6px;
+        text-align: center;
+        line-height: 30px;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="feedback-wrapper">
+      <textarea
+        id="textarea"
+        class="textarea"
+        placeholder="请留下您的宝贵意见或建议，我们将努力改进！(不少于10个字)"
+      ></textarea>
+      <div class="submit" id="send">提交</div>
+      <div class="success" id="success">提交成功</div>
+      <div class="success" id="loading">提交中。。。</div>
+      <div class="fail" id="fail">请输入不小于10个字的意见或建议</div>
+    </div>
+    <script>
+      var send = document.getElementById("send");
+      var text = document.getElementById("textarea");
+      var loading = document.getElementById("loading");
+      var success = document.getElementById("success");
+      var fail = document.getElementById("fail");
+      text.focus(function () {
+        console.log(text.value);
+      });
+      send.onclick = function () {
+        if (text.value.length <= 9) {
+          fail.style.display = "block";
+          setTimeout(function () {
+            fail.style.display = "none";
+          }, 2000);
+        } else {
+          loading.style.display = "block";
+          setTimeout(function () {
+            loading.style.display = "none";
+            success.style.display = "block";
+            setTimeout(function () {
+              success.style.display = "none";
+            }, 2000);
+          }, 2000);
+        }
+      };
+    </script>
+  </body>
+</html>
