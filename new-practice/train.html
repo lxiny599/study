@@ -36,7 +36,11 @@
   <body>
     <div>
       <div>如果值A不存在则直接添加在链表最后面</div>
-      在<input type="text" id="input1" placeholder="请输入值A" />后面添加<input type="text" id="input2" placeholder="请输入值B" />
+      在<input type="text" id="input1" placeholder="请输入值A" />后面添加<input
+        type="text"
+        id="input2"
+        placeholder="请输入值B"
+      />
       <button id="btn1">确定添加</button>
     </div>
     <div>
@@ -120,40 +124,24 @@
       console.log(myList.head);
 
       let train = document.getElementById("train");
-      let input1 = document.getElementById('input1');
-      let input2 = document.getElementById('input2');
-      let btn1 = document.getElementById('btn1');
-      let input3 = document.getElementById('input3');
-      let btn2 = document.getElementById('btn2');
+      let input1 = document.getElementById("input1");
+      let input2 = document.getElementById("input2");
+      let btn1 = document.getElementById("btn1");
+      let input3 = document.getElementById("input3");
+      let btn2 = document.getElementById("btn2");
 
-      btn1.onclick = function(){
-        if(input2.value){
+      btn1.onclick = function () {
+        if (input2.value) {
           myList.insert(input2.value, input1.value);
         }
-          show()
-      }
-      btn2.onclick = function(){
-        if(input3.value){
+        show();
+      };
+      btn2.onclick = function () {
+        if (input3.value) {
           myList.remove(input3.value);
         }
-          show()
-      }
-      // input.addEventListener("keyup", function(event) {
-      //     event.preventDefault();
-      //     if (event.keyCode === 13) {
-      //         console.log(input.value)
-      //         myList.insert(input.value,"");
-      //         show()
-      //     }
-      // });
-      // btn.onclick = function(){
-      //     let current = myList.head
-      //     while(current.next != null){
-      //         current = current.next
-      //     }
-      //     show()
-      // }
-  
+        show();
+      };
       function show() {
         let current = myList.head;
         let str = "";

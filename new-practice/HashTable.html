@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function HashTable() {
+        var size = 0;
+        var entry = new Object();
+        // 添加项
+        this.add = function (key, value) {
+          if (!this.containsKey(key)) {
+            size++;
+          }
+          entry[key] = value;
+        };
+        // 根据key取值
+        this.getValue = function (key) {
+          return this.containsKey(key) ? entry[key] : null;
+        };
+        // 根据key删除一项
+        this.remove = function (key) {
+          if (this.containsKey(key) && delete entry[key]) {
+            size--;
+          }
+        };
+        // 是否包含某个key
+        this.containsKey = function (key) {
+          return key in entry;
+        };
+        // 是否包含某个值
+        this.containsValue = function (value) {
+          for (var prop in entry) {
+            if (entry[prop] == value) {
+              return true;
+            }
+          }
+          return false;
+        };
+        // 获取所有的值的数组
+        this.getValues = function () {
+          var values = new Array();
+          for (var prop in entry) {
+            values.push(entry[prop]);
+          }
+          return values;
+        };
+        // 获取所有的key的数组
+        this.getKeys = function () {
+          var keys = new Array();
+          for (var prop in entry) {
+            keys.push(prop);
+          }
+          return keys;
+        };
+        // 获取项总数
+        this.getSize = function () {
+          return size;
+        };
+        // 清空哈希表
+        this.clear = function () {
+          size = 0;
+          entry = new Object();
+        };
+      }
+      var manHT = new HashTable();
+      manHT.add("p1", "刘备");
+      manHT.add("p2", "关羽");
+      // manHT.getValue("p1");
+      // console.log(manHT.getValue("p1"));
+      console.log(manHT.getValues());
+      console.log(manHT.getKeys());
+    </script>
+  </body>
+</html>
