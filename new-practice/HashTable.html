@@ -3,9 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>哈希表小火车</title>
   </head>
+  <style>
+    .train {
+      display: flex;
+      margin-top: 10px;
+    }
+    .train .train-item {
+      position: relative;
+      width: 100px;
+      height: 60px;
+      margin-right: 10px;
+      background-color: #00f000;
+      line-height: 60px;
+      text-align: center;
+    }
+    .train .train-item::after {
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%);
+      content: "";
+      width: 10px;
+      height: 3px;
+      background: #000;
+    }
+    .train-item:last-child::after {
+      display: none;
+    }
+  </style>
   <body>
+    <div>
+      <div>请勿添加重复的值</div>
+      添加一条key为<input type="text" id="input1" placeholder="请输入key" />值为
+      <input type="text" id="input2" placeholder="请输入值" />的数据
+      <button id="btn1">确定添加</button>
+    </div>
+    <div>
+      <div>删除前请确认删除值存在</div>
+      删除key为<input type="text" id="input3" placeholder="请输入key" />的值
+      <button id="btn2">确定删除</button>
+    </div>
+    <div class="train" id="train"></div>
     <script>
       function HashTable() {
         var size = 0;
@@ -73,6 +113,40 @@
       // console.log(manHT.getValue("p1"));
       console.log(manHT.getValues());
       console.log(manHT.getKeys());
+
+      let train = document.getElementById("train");
+      let input1 = document.getElementById("input1");
+      let input2 = document.getElementById("input2");
+      let btn1 = document.getElementById("btn1");
+      let input3 = document.getElementById("input3");
+      let btn2 = document.getElementById("btn2");
+
+      btn1.onclick = function () {
+        if (input1.value && input2.value) {
+          manHT.add(input1.value, input2.value);
+        }
+        show();
+      };
+      btn2.onclick = function () {
+        if (input3.value) {
+          manHT.remove(input3.value);
+        }
+        show();
+      };
+      function show() {
+        let values = manHT.getValues();
+        let keys = manHT.getKeys();
+        let str = "";
+        for (let i = 0; i < values.length; i++) {
+          str += `<div class="train-item">${keys[i]}-${values[i]}</div>`;
+        }
+        // while (current.next != null) {
+        //   str += `<div class="train-item">${current.next.element}</div>`;
+        //   current = current.next;
+        // }
+        train.innerHTML = str;
+      }
+      show();
     </script>
   </body>
 </html>
