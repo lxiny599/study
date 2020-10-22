@@ -4,6 +4,8 @@ import Home from "../views/Home.vue";
 import Count from "../views/Count.vue";
 import Parent from "../views/Parent.vue";
 import EventBus from "../views/eventBus.vue";
+import VuexParent from "../views/Vuex-parent.vue";
+import attrsListeners from "../views/attrs-listeners.vue";
 
 Vue.use(VueRouter);
 
@@ -27,6 +29,16 @@ const routes = [
     path: "/eventBus",
     name: "EventBus",
     component: EventBus,
+  },
+  {
+    path: "/vuexParent",
+    name: "VuexParent",
+    component: VuexParent,
+  },
+  {
+    path: "/attrsListeners",
+    name: "attrsListeners",
+    component: attrsListeners,
   },
   {
     path: "/about",

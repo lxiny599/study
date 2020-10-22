@@ -5,7 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    count: 9
+    count: 9,
+    AMsg:'',
+    BMsg:''
   },
   mutations: {
     add(state,n){
@@ -13,6 +15,12 @@ export default new Vuex.Store({
     },
     reduce(state){
       state.count--
+    },
+    receiveAMsg(state,payload){
+      state.AMsg = payload.AMsg
+    },
+    receiveBMsg(state,payload){
+      state.BMsg = payload.BMsg
     }
   },
   getters:{

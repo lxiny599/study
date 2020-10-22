@@ -5,7 +5,9 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/parent">Parent</router-link> |
       <router-link to="//A">A</router-link> |
-      <router-link to="/eventBus">EventBus</router-link>
+      <router-link to="/eventBus">EventBus</router-link> |
+      <router-link to="/vuexParent">VuexParent</router-link> |
+      <router-link to="/attrsListeners">attrsListeners</router-link>
     </div>
     <router-view />
   </div>
