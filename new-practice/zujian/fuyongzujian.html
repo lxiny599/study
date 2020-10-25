@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>复用组件</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <my-article></my-article>
+    </div>
+    <script>
+        Vue.component("my-title",{
+            template:`<div>
+                    <h1>清风纸巾</h1>
+                    <h4>原木</h4>
+                </div>`
+        })
+        Vue.component("my-content",{
+            template:"<p>源于纯净，归于健康</p>"
+        })
+        //当调用多个组件时要用``符号,而且要用顶层标签包含
+        Vue.component("my-article",{
+            template:`<div>
+                    <my-title></my-title>
+                    <my-content></my-content>
+                </div>`
+        })
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"hello VueJs"
+            }
+        })
+    </script>
+</body>
+</html>

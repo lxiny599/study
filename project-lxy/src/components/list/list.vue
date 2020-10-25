@@ -1,0 +1,33 @@
+<template>
+    <div>
+        <div class="list-item" v-for="(item,index) in list" :key="index">
+            <div class="item-name">
+                <span>{{item.name}}</span>
+            </div>
+            <div v-if="item.children" class="children-item">
+                <list :list="item.children"></list>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name:"list",
+    props:{
+        list:Array
+    }
+}
+</script>
+
+<style scoped>
+.list-item{
+    padding-left: 20px;
+}
+.item-name{
+    padding-left: 20px;
+}
+.children-item{
+    padding-left: 20px;
+}
+</style>

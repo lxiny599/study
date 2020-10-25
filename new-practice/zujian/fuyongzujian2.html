@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>复用组件</title>
+    <script src="./js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{msg}}</p>
+        <my-form></my-form>        
+    </div>
+    <script>
+        Vue.component("my-user",{
+            template:"<label>用户名：</label>"
+        })
+        Vue.component("user-input",{
+            template:`<input type="text" placeholder="请输入用户名" />`
+        })
+        Vue.component("my-pwd",{
+            template:"<label>密码：</label>"
+        })
+        Vue.component("pwd-input",{
+            template:`<input type="text" placeholder="请输入密码" />`
+        })
+        Vue.component("my-login",{
+            template:"<button>登录</button>"
+        })
+        Vue.component("my-resign",{
+            template:"<button>注册</button>"
+        })
+        Vue.component("my-form",{
+            template:`<form>
+                    <my-user></my-user>
+                    <user-input></user-input>
+                    <my-pwd></my-pwd>
+                    <pwd-input></pwd-input>
+                    <my-login></my-login>
+                    <my-resign></my-resign>
+                </form>`
+        })
+        new Vue({
+            el:"#app",
+            data:{
+                msg:"hello world"
+            }
+        })
+    </script>
+</body>
+</html>

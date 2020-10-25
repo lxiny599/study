@@ -7,7 +7,8 @@
       <router-link to="//A">A</router-link> |
       <router-link to="/eventBus">EventBus</router-link> |
       <router-link to="/vuexParent">VuexParent</router-link> |
-      <router-link to="/attrsListeners">attrsListeners</router-link>
+      <router-link to="/attrsListeners">attrsListeners</router-link> |
+      <router-link to="/List">List</router-link>
     </div>
     <router-view />
   </div>
