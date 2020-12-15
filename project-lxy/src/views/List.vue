@@ -1,11 +1,14 @@
 <template>
     <div>
         <list :list="list"></list>
+        <button @click="isShow()">弹窗</button>
     </div>
 </template>
 
 <script>
 import list from "../components/list/list"
+
+import Notice from '../components/Notice.vue'
 export default {
     name: "Parent",
     components: { list },
@@ -33,7 +36,14 @@ export default {
                 }]
             }]
         }
-    }
-    
+    },
+    methods:{
+        isShow(){
+            this.$create(Notice, {
+            title: '测试',
+            message: '提示信息'
+            }).show()
+        }
+    }    
 }
 </script>
