@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     ...mapMutations(['login']), // this.app.login成功的回调函数会调用本页面的 login 方法
-    getuserinfo: function (res) {
+    getuserinfo(res) {
       uni.removeStorageSync('code508count')
       if (res.detail.iv) {
         this.app.login()
