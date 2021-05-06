@@ -1,0 +1,21 @@
+{
+  "name": "micro-dmj-applet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "js-md5": "^0.7.3",
+    "uview-ui": "^1.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@119.23.74.165:micro-dmj-applet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

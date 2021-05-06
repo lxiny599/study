@@ -1,12 +1,18 @@
-@import 'commons/scss/iconfont.scss'; // 引入字体图标
+@import 'commons/scss/variable.scss'; // 引入全局变量
+@import 'commons/scss/mixins.scss'; // 引入全局混合函数
 @import 'commons/scss/common.scss'; // 引入线上背景图
+@import 'commons/svg.scss'; //引入svg
+@import 'commons/iconfont.scss'; //引入字体图标
+@import 'uview-ui/theme.scss';
 
 [class*='ic-'] {
   font-family: 'iconfont' !important;
   display: inline-block;
   vertical-align: top;
-  font-size: 16px;
   font-style: normal;
+}
+icon::before {
+  display: block;
 }
 
 // 公共参数
@@ -674,7 +680,7 @@ button::after {
         padding: 6rpx;
         .ic-close {
           font-size: 24rpx;
-          color: #999;
+          color: $color-light-grey;
         }
       }
       .img {
@@ -1162,5 +1168,107 @@ button::after {
     transform: translateX(-50%);
     width: 180rpx;
     height: 180rpx;
+  }
+}
+
+.shareTakeaway {
+  //外卖分享
+  .openCon {
+    width: 500rpx;
+    height: 874rpx;
+    background: #ffffff;
+    border-radius: 16rpx;
+    padding: 0;
+    // text-align: center;
+    & > .content {
+      padding: 0;
+    }
+  }
+  .img-box {
+    width: 100%;
+    height: 794rpx;
+    padding: 24rpx 24rpx 0;
+    image {
+      width: 452rpx;
+      height: 702rpx;
+      border-radius: 16rpx;
+    }
+    .desc {
+      width: 100%;
+      font-size: 24rpx;
+      color: #ffa98e;
+      text-align: center;
+    }
+  }
+  .btn-box {
+    display: flex;
+    height: 80rpx;
+    border-top: 1px solid #ededed;
+    .btn1 {
+      width: 250rpx;
+      height: 80rpx;
+      font-size: 28rpx;
+      font-weight: 500;
+      color: #333;
+      text-align: center;
+      line-height: 80rpx;
+    }
+  }
+}
+
+.cashOut {
+  .openCon {
+    width: 510rpx;
+    border-radius: 40rpx;
+    text-align: center;
+    padding-top: 110rpx;
+    .a {
+      display: none;
+    }
+  }
+  .logo {
+    position: absolute;
+    top: -90rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 180rpx;
+    height: 180rpx;
+  }
+  .title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #333;
+    line-height: 42rpx;
+  }
+  .desc {
+    width: 392rpx;
+    font-size: 28rpx;
+    color: #333;
+    line-height: 46rpx;
+    text-align: left;
+  }
+  .mt-10 {
+    margin-top: 16rpx;
+  }
+  .download-btn {
+    width: 392rpx;
+    height: 72rpx;
+    margin-top: 76rpx;
+    background: linear-gradient(-85deg, #fd3c44 0%, #fc6682 100%);
+    border-radius: 36rpx;
+    font-size: 30rpx;
+    font-weight: bold;
+    color: #fff;
+    // line-height: 36rpx;
+  }
+  .close-box {
+    position: absolute;
+    bottom: -130rpx;
+    left: 50%;
+    transform: translateX(-50%);
+    .ic-shut {
+      font-size: 60rpx;
+      color: #fff;
+    }
   }
 }

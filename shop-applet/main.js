@@ -1,26 +1,35 @@
 import Vue from 'vue'
-import App from './App'
-import store from './store'
 import api from './config/api'
+import store from './store'
+import App from './App'
 import { version } from './config'
-
-// 公共组件
+import md5 from 'js-md5'
+import uView from 'uview-ui'
+Vue.use(uView)
+//公共组件
+import dmjButton from './components/dmj-button.vue'
 import appLoading from './components/loading.vue'
 import appOpen from './components/open.vue'
-import appPublic from './components/public'
+import reachBottom from './components/reachBottom.vue'
+import appPublic from './public'
+import dmjPage from './components/page'
 
+Vue.component('dmj-page', dmjPage) // page
+Vue.component('dmj-button', dmjButton) // button
 Vue.component('app-loading', appLoading) //加载中
 Vue.component('app-open', appOpen) //弹窗
 Vue.component('app-public', appPublic) //公共组件（包含弹窗）
-
+Vue.component('reach-bottom', reachBottom) //加载更多
+Vue.prototype.$cli = false
 const cacheData = {} //当前生命周期缓存数据
 Object.defineProperty(Vue.prototype, 'app', {
   get: function () {
     //加入原型属性函数事件
+
     const that = this.$root || this //获取调用vue实例
 
-    // 公共函数定义
     const app = {
+      //公共函数定义
       api,
       getPublicData() {
         //page公共数据
@@ -28,26 +37,46 @@ Object.defineProperty(Vue.prototype, 'app', {
           openList: []
         }
       },
-      /**
-       * 统一请求接口
-       * @param again 加载出错重新加载按钮
-       * @param cache 是否进行缓存
-       * @param cancelShade 是否取消遮罩
-       */
+      sign(data) {
+        const pubrep = uni.getStorageSync('appPubrep')
+        data.apiversion = '17' // api版本号
+        data.devversion = '320' // 版本号
+        data.devtype = '02' // 设备类型
+        data.merchantid = pubrep.merchantid // '2';// 代理商编号
+        data.userid = pubrep.userid // 3769;// 15928//25026;
+        data.reqttime = new Date().getTime() // 时间戳
+        data.islogin = '1'
+        for (const key in data) {
+          arr.push(key)
+          // param += '&' + key + '=' + data[key]
+        }
+        arr.sort() // 按字典排序
+        let str = ''
+        for (var i in arr) {
+          str += data[arr[i]]
+        }
+        data.sign = md5(str + '1axd@#hhjdxc')
+          .toLowerCase()
+          .toString()
+        return data
+      },
       request({
+        //统一请求接口
         url,
         api = false,
         load = false,
-        again = false,
+        again = true,
+        /*加载出错出现重新加载按钮*/
         data = {},
         params = {},
         cache = false,
-        type = 'POST',
+        type = 'post',
         prohibit = '',
+        hasSign = false, // 是否需要签名，用于请求app接口
+        /*是否取消遮罩*/
         cancelShade = true
       }) {
-        // 解析api路径
-        url = api ? this.api[api] : url
+        url = api ? this.api[api] : url //解析api路径
         if (Object.keys(params).length !== 0) {
           let queryStr = ''
           Object.keys(params).forEach((key) => {
@@ -60,9 +89,16 @@ Object.defineProperty(Vue.prototype, 'app', {
         if (!url) return console.log('请传入api或者url')
         if (load) app.fullLoading()
         return new Promise((resolve, reject) => {
-          // 存在缓存数据，不在请求
-          if (cache && app.getCache({ url, formData: data, rev: resolve }))
-            return
+          if (
+            cache &&
+            app.getCache({
+              url,
+              formData: data,
+              rev: resolve
+            })
+          )
+            return //存在缓存数据,不在请求
+          data = hasSign ? that.app.sign(data) : data
           uni.request({
             url,
             data: data,
@@ -71,38 +107,45 @@ Object.defineProperty(Vue.prototype, 'app', {
               Authorization: uni.getStorageSync('Authorization'),
               version: version
             },
-            success(res) {
+            success: function (res) {
+              // console.log(res)
               if (res.data.result == true) {
-                if (cache) app.setCache({ url, formData: data, cacheData: res }) // 插入缓存数据
+                if (cache)
+                  app.setCache({
+                    //插入缓存数据
+                    url,
+                    formData: data,
+                    cacheData: res
+                  })
                 resolve(res)
               } else if (res.data.code === 501 || res.data.code === 507) {
                 store.commit('logout')
-                // 登录过期，重新登录
-                app.login().catch((err) => {
-                  // 登录失败，重新登录
-                  uni.navigateTo({
-                    url: '/pagesOther/login/login'
-                  })
+                //登入过期，重新登入
+                // app.login().catch((err) => {
+                //登入失败，进入登入页面
+                wx.navigateTo({
+                  url: '/pagesOther/login/login'
                 })
+                // })
               } else {
-                // 提示错误信息
+                //提示错误信息
                 if (
-                  res.data.code === 508 &&
+                  res.data.code == 508 &&
                   !uni.getStorageSync('code508count')
                 ) {
                   store.commit('logout')
                   uni.setStorageSync('code508count', 1)
-                  app.login().catch((err) => {
-                    // 登录失败，重新登录
-                    uni.navigateTo({
-                      url: '/pagesOther/login/login'
-                    })
+                  // app.login().catch((err) => {
+                  //登入失败，进入登入页面
+                  wx.navigateTo({
+                    url: '/pagesOther/login/login'
                   })
+                  // })
                 } else {
+                  reject(res)
                   if (res.data.code !== 601) {
                     app.msg(res.data.message)
                   }
-                  reject(res)
                 }
               }
               load && app.fullLoading(false)
@@ -112,14 +155,18 @@ Object.defineProperty(Vue.prototype, 'app', {
               }
               prohibit
             },
-            fail(res) {
+            fail: function (res) {
               app.loading(false)
               console.log('接口请求出错：' + url, data, res)
               load && app.fullLoading(false)
               prohibit
-              // 弹出重新加载提醒
               if (again) {
-                app.again({ arg: args[0], rev: resolve, err: reject })
+                //弹出重新加载提醒
+                app.again({
+                  arg: args[0],
+                  rev: resolve,
+                  err: reject
+                })
               } else {
                 reject(res)
               }
@@ -127,28 +174,30 @@ Object.defineProperty(Vue.prototype, 'app', {
           })
         })
       },
-      // 用户登录
       login() {
+        //用户登入
         return new Promise((resolve, reject) => {
-          uni.getUserInfo({
-            success(res) {
-              // 获取用户信息
+          uni.getUserProfile({
+            desc: '登录',
+            success: (res) => {
+              //获取用户信息
               const userInfo = res.userInfo
               uni.login({
-                success(res2) {
-                  // 获取登录信息
+                success: (res2) => {
+                  //获取登入信息
                   const authVo = {
                     code: res2.code,
                     referId: uni.getStorageSync('superiorId') || '',
                     iv: res.iv,
                     encryptedData: res.encryptedData
                   }
-                  // 请求登录接口
                   that.app
                     .request({
+                      //请求登入接口
                       api: 'AuthLoginByWeixin',
                       data: authVo,
-                      load: true
+                      load: true,
+                      method: 'post'
                     })
                     .then((loginRes) => {
                       const loginData = loginRes.data.data
@@ -160,10 +209,12 @@ Object.defineProperty(Vue.prototype, 'app', {
                         0,
                         loginData.indexOf('-')
                       )
-                      // 此处更新用户信息
-                      that.login(userInfo)
+                      that.login(userInfo) // 此处更新用户信息
                       uni.navigateBack()
                       try {
+                        // console.log(
+                        //   `referId: ${uni.getStorageSync('superiorId')}`
+                        // )
                         uni.setStorageSync('hasLogin', true)
                         uni.setStorageSync('firstLogin', true)
                         uni.removeStorageSync('superiorId')
@@ -178,44 +229,46 @@ Object.defineProperty(Vue.prototype, 'app', {
                     })
                 },
                 fail() {
-                  // 获取授权失败
+                  //获取授权失败
                   app.msg('授权信息，才能登录哦')
                   reject('获取登录信息失败')
                 }
               })
             },
-            fail(err) {
+            fail: (err) => {
               console.log('uni.getUserInfo fail', err)
               reject(err)
             }
           })
         })
       },
-      // 进入登录页面
       showLoginPage() {
         uni.navigateTo({
           url: '/pagesOther/login/login'
         })
       },
-      //缓存数据，不放入本地存储，以免缓存过久
-      cacheData,
-      // 插入缓存
-      setCatch({ url, formData, cacheData }) {
+      cacheData, //缓存数据，不放入本地存储，以免缓存过久
+      setCache({ url, formData, cacheData }) {
+        //插入缓存
         let list = this.cacheData[url] || []
-        list.push({ formData, cacheData })
+        list.push({
+          formData,
+          cacheData
+        })
         this.cacheData[url] = list
       },
-      // 获取缓存数据，减少请求次数
       getCache({ url, formData, rev }) {
-        let list = this.cacheData[url]
-        let isCache = false
-        let that = this
-        that.each(list, (th, i) => {
+        //获取缓存数据,减少请求次数
+        let list = this.cacheData[url],
+          isCache = false,
+          that = this
+        that.each(list, function (th, i) {
           let is = true
-          that.each(th.formData, (t1, i) => {
-            // 仅判断第一层，如第二层存在obj，视为不缓存数据
+          that.each(th.formData, function (t1, i) {
+            //仅判断第一层，如第二层存在obj，视为不缓存数据
             if (t1 !== formData[i]) return (is = false)
           })
+
           if (is) {
             isCache = true
             rev(th.cacheData)
@@ -224,18 +277,13 @@ Object.defineProperty(Vue.prototype, 'app', {
         })
         return isCache
       },
-      // 遍历
-      each(list, fun) {
-        for (let x in list) {
-          if (fun(list[x], x) === false) return false
-        }
-      },
       countJson: {},
-      // 计数
       count(name, num = 0) {
+        //计数
         if (!cacheData.countJson) cacheData.countJson = {}
         let countJson = cacheData.countJson
-        if (!name) return console.log('请传入count name')
+
+        if (!name) return alert('请传入count name')
         if (!countJson[name]) countJson[name] = 0
         countJson[name] += num
         if (countJson[name] < 0) countJson[name] = 0
@@ -244,60 +292,73 @@ Object.defineProperty(Vue.prototype, 'app', {
       getData(e, name) {
         return e.currentTarget.dataset[name]
       },
-      // 获取单张缓存数据
+      each(list, fun) {
+        for (let x in list) {
+          if (fun(list[x], x) === false) return
+        }
+      },
       getOneTemp(url) {
+        //获取单张缓存数据
         if (!cacheData.tempFileList) cacheData.tempFileList = {}
+
         let temp = cacheData.tempFileList
 
         return new Promise((rev, err) => {
           if (typeof temp[url] == 'string') return rev(temp[url])
           //已经存在本地缓存数据
           else if (temp[url] !== undefined) return false //已经在请求中，堆载成功回调数据
+
           temp[url] = 1
+
           if (url.indexOf('//tmp') != -1) {
-            // 已经缓存过了
+            //已经缓存过了
             go(url)
-          } else {
-            // 还未缓存
+          } //还未缓存
+          else {
             uni.downloadFile({
               url,
-              header: { authorize: uni.getStorageSync('Authorization') },
+              header: { Authorization: uni.getStorageSync('Authorization') },
               success(res) {
                 go(res.tempFilePath)
               },
               fail() {
                 app.loading(false)
+                // app.msg('图片url可能已经下载到本地了：' + URL)
                 app.msg('获取图片失败请稍后重试')
-                err(`图片url可能已经下载到本地了：${URL}`)
+                err('图片url可能已经下载到本地了：' + URL)
               }
             })
           }
+
           function go(tempFilePath) {
             uni.saveFile({
               tempFilePath,
               success(e) {
-                temp[url] = e.savedFilePath // 插入图片缓存
+                temp[url] = e.savedFilePath //插入图片缓存
                 rev(e.savedFilePath)
               },
               fail(e) {
                 temp[url] = undefined
-                if (e.errMsg.indexOf('maximun size') != -1) {
-                  // 内存超出，清除数据后重新运行
+
+                if (e.errMsg.indexOf('maximum size') != -1) {
+                  //内存超出，清除数据后重新运行
+
                   uni.getSavedFileList({
                     // 获取文件列表
                     success(res) {
                       res.fileList.forEach((val, key) => {
                         // 遍历文件列表里的数据
-                        if (key < res.fileList.length - 2) {
-                          // 删除存储的垃圾数据，保留最后两张图片，避免前台使用出错
-                          uni.filePath.val.filePath
-                        }
+                        if (key < res.fileList.length - 2)
+                          // 删除存储的垃圾数据,保留最后两张图片，避免前台使用出错
+                          uni.removeSavedFile({
+                            filePath: val.filePath
+                          })
                       })
-                      app.getOneTemp(url).then(rev).catch(err) // 递归
+                      app.getOneTemp(url).then(rev).catch(err) //递归
                     }
                   })
                 } else {
-                  // 爆出错误信息
+                  //爆出错误信息
                   console.log('缓存远程图片到本地失败', e, url)
                   err('缓存远程图片到本地失败')
                 }
@@ -306,31 +367,30 @@ Object.defineProperty(Vue.prototype, 'app', {
           }
         })
       },
-      // 获取多张缓存数据
       getTemp(urlList = []) {
-        let tempList = []
-        let num = 0
+        //获取多张缓存数据
+        let tempList = [],
+          num = 0
         return new Promise((rev, err) => {
           app.each(urlList, (url, index) => {
             app
               .getOneTemp(url)
               .then((tempUrl) => {
-                num++ // 计数
+                num++ //计数
                 tempList[index] = tempUrl
-                if (num >= urlList.length) rev(tempList) // 全部加载结束
+                if (num >= urlList.length) rev(tempList) //全部加载结束
               })
               .catch((e) => {
-                num++ // 计数
-                if (num >= urlList.length) rev(tempList) // 全部加载结束
+                num++ //计数
+                if (num >= urlList.length) rev(tempList) //全部加载结束
               })
           })
         })
       },
-      // 单位px计算
       unit(val) {
+        //单位px计算
         return typeof val == 'number' ? val + 'upx' : val
       },
-
       loading(is = true) {
         //加载中
         if (is) {
@@ -595,6 +655,10 @@ Object.defineProperty(Vue.prototype, 'app', {
           newJson[i] = app.copyJson(t) //执行递归
         })
         return newJson
+      },
+      each(list, fun) {
+        //遍历
+        for (let x in list) if (fun(list[x], x) === false) return false
       },
       setMpOn(onName, fun) {
         //设置当前页面小程序监听事件，如（onLoad\onShow\onHide\onUnload等）；
@@ -888,6 +952,8 @@ Object.defineProperty(Vue.prototype, 'app', {
       productSearch() {
         uni.getClipboardData({
           success: function (res1) {
+            // uni.hideToast()
+            Vue.prototype.$cli = false
             if (
               res1.data &&
               res1.data != ' ' &&
@@ -1141,6 +1207,6 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 
 new Vue({
-  ...App,
-  store
+  store,
+  ...App
 }).$mount()

@@ -1,8 +1,19 @@
+
 <script>
 import { mapMutations } from 'vuex'
+import Vue from 'vue'
+/* import { persistVuex } from './commons/utils'
+let stopSubscribeMutation */
 export default {
-  onLaunch: function () {
-    // 小程序检查更新
+  data() {
+    return {
+      baseimgurl: '',
+      navigateToLogin: false
+    }
+  },
+  onLaunch() {
+    // stopSubscribeMutation = persistVuex()
+    const that = this
     const updateManager = uni.getUpdateManager()
     if (updateManager) {
       updateManager.onCheckForUpdate((res) => {
@@ -25,7 +36,6 @@ export default {
         // 新的版本下载失败
       })
     }
-
     try {
       const userInfo = uni.getStorageSync('userInfo')
       this.login(userInfo)
@@ -33,17 +43,38 @@ export default {
       console.log('App onLaunch 获取缓存信息失败', error)
     }
   },
+  onShow(res) {
+    Vue.prototype.$cli = true
+    // uni.getClipboardData({
+    //   success: function (res) {
+    //     console.log(res.data)
+    //   }
+    // })
+    // uni.setClipboardData({
+    //   data: '',
+    //   success: function () {
+    //     console.log('success')
+    //   }
+    // })
+  },
   methods: {
-    ...mapMutations(['login'])
+    ...mapMutations(['login']),
+    goLoginPageTimeOut() {
+      if (this.navigateToLogin) {
+        return
+      }
+      this.navigateToLogin = true
+      setTimeout(() => {
+        uni.navigateTo({
+          url: '/pagesOther/login/login'
+        })
+      }, 1000)
+    }
   }
 }
 </script>
 
-<style>
+<style lang="scss">
 /*每个页面公共css */
-page {
-  width: 100%;
-  height: 100%;
-  background-color: #f2f2f2;
-}
+@import 'uview-ui/index.scss';
 </style>

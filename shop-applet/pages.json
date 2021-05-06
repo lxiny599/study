@@ -1,39 +1,309 @@
 {
+  "easycom": {
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+  },
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
-      "path": "pages/index/index",
+      "path": "pages/home/home",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationBarTitleText": "呆萌价",
+        "navigationBarBackgroundColor": "#EB444F",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true,
+        "backgroundColor": "#EB444F"
+      }
+    },
+    {
+      "path": "pages/class/class",
+      "style": {
+        "navigationBarTitleText": "分类",
+        "backgroundColor": "#F2F2F2"
+      }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTextStyle": "white",
+        "enablePullDownRefresh": true,
+        "backgroundColor": "#FB083D"
+      }
+    },
+    {
+      "path": "pages/elm/elm",
+      "style": {
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/mt/mt",
+      "style": {
+        "navigationStyle": "custom"
       }
     }
   ],
   "subPackages": [
+    {
+      "root": "pagesGoods",
+      "pages": [
+        {
+          "path": "detail/detail",
+          "style": {
+            "navigationStyle": "custom"
+          }
+        },
+        {
+          "path": "search/search",
+          "style": {
+            "navigationBarTitleText": "搜索"
+          }
+        },
+        {
+          "path": "searchDetail/searchDetail",
+          "style": {
+            "navigationBarTitleText": "搜索结果"
+          }
+        },
+        {
+          "path": "list/list",
+          "style": {}
+        }
+      ]
+    },
     {
       "root": "pagesOther",
       "pages": [
         {
           "path": "login/login",
           "style": {}
+        },
+        {
+          "path": "web-view/web-view",
+          "style": {}
+        }
+      ]
+    },
+    {
+      "root": "pagesUser",
+      "pages": [
+        {
+          "path": "income/income",
+          "style": {
+            "navigationBarTitleText": "我的收益"
+          }
+        },
+        {
+          "path": "myFans/myFans",
+          "style": {
+            "navigationBarTitleText": "我的粉丝",
+            "navigationBarTextStyle": "white",
+            "navigationBarBackgroundColor": "#FC0F3B"
+          }
+        },
+        {
+          "path": "order/order",
+          "style": {
+            "navigationBarTitleText": "我的订单",
+            "navigationBarBackgroundColor": "#f2f2f2"
+          }
+        },
+        {
+          "path": "order/detail",
+          "style": {
+            "navigationBarTitleText": "我的订单",
+            "navigationBarBackgroundColor": "#f2f2f2"
+          }
+        },
+        {
+          "path": "myTracks/myTracks",
+          "style": {
+            "navigationBarTitleText": "我的足迹",
+            "navigationBarBackgroundColor": "#f2f2f2"
+          }
+        },
+        {
+          "path": "myCollection/myCollection",
+          "style": {
+            "navigationBarTitleText": "我的收藏",
+            "navigationBarBackgroundColor": "#f2f2f2"
+          }
+        },
+        {
+          "path": "share/share",
+          "style": {
+            "navigationBarTitleText": "分享邀请",
+            "navigationBarBackgroundColor": "#f2f2f2"
+          }
+        },
+        {
+          "path": "feedback/feedback",
+          "style": {
+            "navigationBarTitleText": "意见反馈"
+          }
+        },
+        {
+          "path": "help/help",
+          "style": {
+            "navigationBarTitleText": "常见问题"
+          }
+        },
+        {
+          "path": "helpList/helpList",
+          "style": {}
+        },
+        {
+          "path": "helpDetail/helpDetail",
+          "style": {
+            "navigationBarTitleText": "帮助中心",
+            "navigationBarBackgroundColor": "#f2f2f2"
+          }
+        },
+        {
+          "path": "helpCenter/helpCenter",
+          "style": {
+            "navigationBarTitleText": "帮助中心",
+            "navigationBarBackgroundColor": "#f5f5f5"
+          }
         }
       ]
     }
   ],
   "preloadRule": {
-    "pages/index/index": {
-      "nerwork": "all",
+    "pages/home/home": {
+      "network": "all",
       "packages": ["__APP__"]
     },
-    //pagesOther
+    "pages/class/class": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    "pages/user/user": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    "pages/elm/elm": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    "pages/mt/mt": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    // pagesGoods
+    "pagesGoods/detail/detail": {
+      "network": "all",
+      "packages": ["pagesGoods"]
+    },
+    "pagesGoods/search/search": {
+      "network": "all",
+      "packages": ["pagesGoods"]
+    },
+    "pagesGoods/searchDetail/searchDetail": {
+      "network": "all",
+      "packages": ["pagesGoods"]
+    },
+    "pagesGoods/list/list": {
+      "network": "all",
+      "packages": ["pagesGoods"]
+    },
+    // pagesOther
     "pagesOther/login/login": {
       "network": "all",
       "packages": ["pagesOther"]
+    },
+    "pagesOther/web-view/web-view": {
+      "network": "all",
+      "packages": ["pagesOther"]
+    },
+    // pagesUser
+    "pagesUser/income/income": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/myFans/myFans": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/order/order": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/myTracks/myTracks": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/myCollection/myCollection": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/share/share": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/feedback/feedback": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/help/help": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/helpList/helpList": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/helpDetail/helpDetail": {
+      "network": "all",
+      "packages": ["pagesUser"]
+    },
+    "pagesUser/helpCenter/helpCenter": {
+      "network": "all",
+      "packages": ["pagesUser"]
     }
   },
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "",
     "navigationBarBackgroundColor": "#FFF",
-    "backgroundColor": "#F2F2F2"
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#EE2325",
+    "borderStyle": "white",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "static/tabbar/index.png",
+        "selectedIconPath": "static/tabbar/index@selected.png"
+      },
+      {
+        "pagePath": "pages/elm/elm",
+        "text": "饿了么",
+        "iconPath": "static/tabbar/elm.png",
+        "selectedIconPath": "static/tabbar/elm@selected.png"
+      },
+      {
+        "pagePath": "pages/mt/mt",
+        "text": "美团",
+        "iconPath": "static/tabbar/mt.png",
+        "selectedIconPath": "static/tabbar/mt@selected.png"
+      },
+      {
+        "pagePath": "pages/class/class",
+        "text": "分类",
+        "iconPath": "static/tabbar/class.png",
+        "selectedIconPath": "static/tabbar/class@selected.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "static/tabbar/user.png",
+        "selectedIconPath": "static/tabbar/user@selected.png"
+      }
+    ]
   }
 }

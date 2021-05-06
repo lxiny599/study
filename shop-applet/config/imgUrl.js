@@ -34,7 +34,9 @@ export const logoOrder = {
   KLICON: `${BASE_IMG_URL}/order/klIcon.png`, // 考拉
   PDDICON: `${BASE_IMG_URL}/order/pddIcon.png`, // 拼多多
   SNICON: `${BASE_IMG_URL}/order/snIocn.png`, // 苏宁
-  WPHICON: `${BASE_IMG_URL}/order/wphIcon.png` // 唯品会
+  WPHICON: `${BASE_IMG_URL}/order/wphIcon.png`, // 唯品会
+  MTICON: `${BASE_IMG_URL}/order/mtIcon.png`, // 美团
+  ELMICON: `${BASE_IMG_URL}/order/elmIcon.png` // 饿了么
 }
 
 export const CLEAN = `${BASE_IMG_URL}/search/clean.png`
@@ -53,4 +55,30 @@ export const authorize = {
   PDDLOGO: `${BASE_IMG_URL}/authorize/pdd-logo.png`, // 拼多多图标
   ARROW: `${BASE_IMG_URL}/authorize/arrow.png`, // 箭头
   WARN: `${BASE_IMG_URL}/authorize/warn.png` // 警告
+}
+
+// 外卖活动icon
+export const takeaway = {
+  ICON1: `${BASE_IMG_URL}/takeaway/icon1.png`, // 蓝
+  ICON2: `${BASE_IMG_URL}/takeaway/icon2.png`, // 蓝
+  ICON3: `${BASE_IMG_URL}/takeaway/icon3.png`, // 蓝
+  ICON4: `${BASE_IMG_URL}/takeaway/icon4.png`, // 绿1
+  ICON5: `${BASE_IMG_URL}/takeaway/icon5.png`, // 绿1
+  ICON6: `${BASE_IMG_URL}/takeaway/icon6.png`, // 绿1
+  ICON7: `${BASE_IMG_URL}/takeaway/icon7.png`, // 黄
+  ICON8: `${BASE_IMG_URL}/takeaway/icon8.png`, // 黄
+  ICON9: `${BASE_IMG_URL}/takeaway/icon9.png`, // 黄
+  ICON10: `${BASE_IMG_URL}/takeaway/icon10.png`, // 绿2
+  ICON11: `${BASE_IMG_URL}/takeaway/icon11.png`, // 绿2
+  ICON12: `${BASE_IMG_URL}/takeaway/icon12.png`, // 绿2
+  ELMICON: `${BASE_IMG_URL}/takeaway/elmIcon.png`, // 绿2
+  MTICON: `${BASE_IMG_URL}/takeaway/mtIcon.png` // 绿2
+}
+
+// 外卖分享背景图
+export const takeawayBg = {
+  ELMGS: `${BASE_IMG_URL}/takeaway/elm-gs-bg.png`, // 饿了么果蔬
+  ELMWM: `${BASE_IMG_URL}/takeaway/elm-wm-bg.png`, // 饿了么外卖
+  MTSC: `${BASE_IMG_URL}/takeaway/mt-sc-bg.png`, // 美团商超
+  MTWM: `${BASE_IMG_URL}/takeaway/mt-wm-bg.png` // 美团外卖
 }
