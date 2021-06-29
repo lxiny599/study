@@ -4,7 +4,6 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "js-md5": "^0.7.3",
     "uview-ui": "^1.6.0"
   },
   "devDependencies": {},

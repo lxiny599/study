@@ -172,7 +172,7 @@ export default {
             const ctx = uni.createCanvasContext('shareIndex')
             ctx.clearRect(0, 0, 750, 1332)
             ctx.drawImage(res.tempFilePath, 0, 0, 750, 1332)
-            that.app.drawCircle({
+            that.$app.canvas.drawCircle({
               ctx: ctx,
               img: code,
               avatarX: 750 / 2 - 129,
@@ -249,7 +249,7 @@ export default {
     },
     // 保存图片到相册
     shareImg() {
-      this.app
+      this.$app
         .authorize('writePhotosAlbum', this.imageUrl[this.activeIndex])
         .then((res) => {
           //保存图片

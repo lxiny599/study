@@ -259,7 +259,7 @@ export default {
     if (params.referId != undefined) {
       uni.setStorageSync('superiorId', params.referId)
     }
-    this.app.updateManager() //检测更新小程序版本
+    this.$app.updateManager() //检测更新小程序版本
     this.referId = uni.getStorageSync('referId')
     if (!this.hasLogin) {
       uni.hideShareMenu()

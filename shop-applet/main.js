@@ -3,7 +3,6 @@ import api from './config/api'
 import store from './store'
 import App from './App'
 import { version } from './config'
-import md5 from 'js-md5'
 import uView from 'uview-ui'
 Vue.use(uView)
 //公共组件
@@ -37,29 +36,6 @@ Object.defineProperty(Vue.prototype, 'app', {
           openList: []
         }
       },
-      sign(data) {
-        const pubrep = uni.getStorageSync('appPubrep')
-        data.apiversion = '17' // api版本号
-        data.devversion = '320' // 版本号
-        data.devtype = '02' // 设备类型
-        data.merchantid = pubrep.merchantid // '2';// 代理商编号
-        data.userid = pubrep.userid // 3769;// 15928//25026;
-        data.reqttime = new Date().getTime() // 时间戳
-        data.islogin = '1'
-        for (const key in data) {
-          arr.push(key)
-          // param += '&' + key + '=' + data[key]
-        }
-        arr.sort() // 按字典排序
-        let str = ''
-        for (var i in arr) {
-          str += data[arr[i]]
-        }
-        data.sign = md5(str + '1axd@#hhjdxc')
-          .toLowerCase()
-          .toString()
-        return data
-      },
       request({
         //统一请求接口
         url,
@@ -72,7 +48,6 @@ Object.defineProperty(Vue.prototype, 'app', {
         cache = false,
         type = 'post',
         prohibit = '',
-        hasSign = false, // 是否需要签名，用于请求app接口
         /*是否取消遮罩*/
         cancelShade = true
       }) {
@@ -98,7 +73,6 @@ Object.defineProperty(Vue.prototype, 'app', {
             })
           )
             return //存在缓存数据,不在请求
-          data = hasSign ? that.app.sign(data) : data
           uni.request({
             url,
             data: data,
@@ -761,193 +735,6 @@ Object.defineProperty(Vue.prototype, 'app', {
           })
         }
       },
-      updateManager() {
-        //版本检测更新
-        if (uni.canIUse('getUpdateManager')) {
-          const updateManager = uni.getUpdateManager()
-          if (updateManager) {
-            updateManager.onCheckForUpdate(function (res) {
-              // console.log(res.hasUpdate,444);
-              // 请求完新版本信息的回调
-              if (res.hasUpdate) {
-                updateManager.onUpdateReady(function () {
-                  uni.showModal({
-                    title: '更新提示',
-                    content: '新版本已经准备好，是否重启应用？',
-                    success(res) {
-                      if (res.confirm) {
-                        // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
-                        updateManager.applyUpdate()
-                      }
-                    }
-                  })
-                })
-                updateManager.onUpdateFailed(function () {
-                  // 新的版本下载失败
-                  uni.showModal({
-                    title: '已经有新版本了哟~',
-                    content:
-                      '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~'
-                  })
-                })
-              }
-            })
-          }
-        } else {
-          uni.showModal({
-            title: '提示',
-            content:
-              '当前微信版本过低，无法使用该功能，请升级到最新微信版本后重试。'
-          })
-        }
-      },
-      formatRich(richtext) {
-        //格式化为小程序通用形式的富文本
-        richtext = richtext || ''
-        // return richtext.replace(/\<img/g, "<img style='max-width:100%;height:auto'");
-        // return richtext.replace(/\<img/g, "<img width='100%'");
-        let richtext1 = richtext.replace(
-          /style=""/g,
-          "style='max-width:100%;height:auto'"
-        )
-        return richtext1.replace(
-          /\<img/g,
-          "<img style='max-width:100%;height:auto'"
-        )
-      },
-      authorize(scopeName, url = '') {
-        //获取授权、验证，返回结果直接获取数据，否则不返回
-        return new Promise((rev, err) => {
-          uni.getSetting({
-            //获取授权信息
-            success(res) {
-              if (res.authSetting['scope.' + scopeName] === false) {
-                //授权被用户拒绝了
-                uni.openSetting({
-                  //执行授权弹窗
-                  success(sres) {
-                    if (sres.authSetting['scope.' + scopeName] === true) {
-                      //用户授权通过，递归获取数据
-                      app.authorize(scopeName, url).then(rev).catch(err) //递归
-                    }
-                  }
-                })
-              } else {
-                //已经拥有权限，直接获取数据
-                switch (scopeName) {
-                  case 'address': //获取地址
-                    uni.chooseAddress({
-                      success: rev,
-                      fail: err
-                    })
-                    break
-                  case 'writePhotosAlbum': //保存图片
-                    uni.saveImageToPhotosAlbum({
-                      filePath: url,
-                      success: rev,
-                      fail: err
-                    })
-                    break
-                }
-              }
-            }
-          })
-        })
-      },
-      upload({ count = 1, sizeType, sourceType }) {
-        return new Promise((rev, err) => {
-          uni.chooseImage({
-            //选择图片
-            count,
-            success(res) {
-              // console.log(res.tempFiles[0])
-              // console.log(res.tempFiles[0].size)
-              let tempFilesSize = res.tempFiles[0].size //获取图片的大小，单位B
-              if (tempFilesSize <= 5000000) {
-                //图片小于或者等于5M时 可以执行获取图片
-                let tflist = res.tempFilePaths,
-                  arr = []
-
-                for (let x in tflist) {
-                  arr.push(
-                    new Promise((r, e) => {
-                      uni.uploadFile({
-                        url: api.Upload,
-                        filePath: tflist[x],
-                        header: {
-                          Authorization: uni.getStorageSync('Authorization'),
-                          version: version
-                        },
-                        name: 'file',
-                        success(res) {
-                          res = JSON.parse(res.data)
-                          if (res.code == 200) r(res.data)
-                          else e(res.message)
-                        },
-                        fail(em) {
-                          e(em)
-                        }
-                      })
-                    })
-                  )
-                }
-
-                app.loading()
-                Promise.all(arr).then((imgList) => {
-                  app.loading(false)
-                  rev(imgList)
-                })
-              } else {
-                app.msg('上传图片不能大于2M!')
-              }
-            }
-          })
-        })
-      },
-      textPrewrap(
-        ctx,
-        content,
-        drawX,
-        drawY,
-        lineHeight,
-        lineMaxWidth,
-        lineNum
-      ) {
-        //处理文字多出省略号显示: ctx:canvas对象,content:文本内容,drawX:x坐标,drawY:y坐标,lineHeight:行高,lineMaxWidth:每行文本的最大宽度,lineNum：最多绘制的行数
-        var drawTxt = '' // 当前绘制的内容
-        var drawLine = 1 // 第几行开始绘制
-        var drawIndex = 0 // 当前绘制内容的索引
-        // 判断内容是否可以一行绘制完毕
-        if (ctx.measureText(content).width <= lineMaxWidth) {
-          ctx.fillText(content.substring(drawIndex, i), drawX, drawY)
-        } else {
-          for (var i = 0; i < content.length; i++) {
-            drawTxt += content[i]
-            if (ctx.measureText(drawTxt).width >= lineMaxWidth) {
-              if (drawLine >= lineNum) {
-                ctx.fillText(
-                  content.substring(drawIndex, i) + '...',
-                  drawX,
-                  drawY
-                )
-                // console.log(content.substring(drawIndex, i));
-                break
-              } else {
-                ctx.fillText(content.substring(drawIndex, i + 1), drawX, drawY)
-                drawIndex = i + 1
-                drawLine += 1
-                drawY += lineHeight
-                drawTxt = ''
-              }
-            } else {
-              // 内容绘制完毕，但是剩下的内容宽度不到lineMaxWidth
-              if (i === content.length - 1) {
-                ctx.fillText(content.substring(drawIndex), drawX, drawY)
-              }
-            }
-          }
-        }
-      },
       // 剪切板全局弹窗
       productSearch() {
         uni.getClipboardData({
@@ -960,9 +747,7 @@ Object.defineProperty(Vue.prototype, 'app', {
               res1.data != uni.getStorageSync('searchText')
             ) {
               uni.setStorageSync('searchText', res1.data)
-              const textInfo = {
-                text: res1.data
-              }
+              const textInfo = { text: res1.data }
               that.app
                 .request({
                   api: 'convertTextToGoods',
@@ -1008,9 +793,7 @@ Object.defineProperty(Vue.prototype, 'app', {
                           app.openEsc()
                           const apiName =
                             'genByGoodsId' + goods.cpsType.code.toUpperCase()
-                          const data = {
-                            goodsId: goods.id
-                          }
+                          const data = { goodsId: goods.id }
                           if (
                             goods.cpsType.code === 'jd' ||
                             goods.cpsType.code === 'sn'
@@ -1138,69 +921,24 @@ Object.defineProperty(Vue.prototype, 'app', {
             }
           }
         })
-      },
-      drawCircle({ ctx, img, avatarX, avatarY, imgWidth, imgHeight, num = 0 }) {
-        //画布截取圆形区域，ctx canvas对象，img 需截取图像，avatarX 图像在画布的水平位置，avatarY 图像在画布的垂直位置，imgWidth 图像宽度，imgHeight 图像高度, num 多添加的空白填充
-        ctx.save()
-        ctx.beginPath() //开始绘制
-        ctx.fillStyle = '#fff'
-        ctx.arc(
-          (imgWidth + num) / 2 + avatarX,
-          (imgHeight + num) / 2 + avatarY,
-          (imgWidth + num) / 2,
-          0,
-          Math.PI * 2,
-          false
-        )
-        ctx.fill()
-        ctx.clip()
-        ctx.drawImage(
-          img,
-          avatarX + num / 2,
-          avatarY + num / 2,
-          imgWidth,
-          imgHeight
-        )
-        ctx.closePath()
-        ctx.restore()
-      },
-      fillRoundRect(cxt, x, y, width, height, radius, fillColor) {
-        // 圆的直径必然要小于矩形的宽高
-        if (2 * radius > width || 2 * radius > height) {
-          return false
-        }
-        cxt.save()
-        cxt.translate(x, y)
-        // 绘制圆角矩形的各个边
-        app.drawRoundRectPath(cxt, width, height, radius)
-        cxt.fillStyle = fillColor || '#000' // 若是给定了值就用给定的值否则给予默认值
-        cxt.fill()
-        cxt.restore()
-      },
-      drawRoundRectPath(cxt, width, height, radius) {
-        cxt.beginPath(0)
-        // 从右下角顺时针绘制，弧度从0到1/2PI
-        cxt.arc(width - radius, height - radius, radius, 0, Math.PI / 2)
-        // 矩形下边线
-        cxt.lineTo(radius, height)
-        // 左下角圆弧，弧度从1/2PI到PI
-        cxt.arc(radius, height - radius, radius, Math.PI / 2, Math.PI)
-        // 矩形左边线
-        cxt.lineTo(0, radius)
-        // 左上角圆弧，弧度从PI到3/2PI
-        cxt.arc(radius, radius, radius, Math.PI, (Math.PI * 3) / 2)
-        // 上边线
-        cxt.lineTo(width - radius, 0)
-        // 右上角圆弧
-        cxt.arc(width - radius, radius, radius, (Math.PI * 3) / 2, Math.PI * 2)
-        // 右边线
-        cxt.lineTo(width, height - radius)
-        cxt.closePath()
       }
     }
     return app
   }
 })
+
+// canvas 绘制图形
+import canvas from './commons/functions/canvas.js'
+// 格式化为小程序通用形式的富文本
+import formatRich from './commons/functions/formatRich.js'
+// 获取授权、验证
+import authorize from './commons/functions/authorize.js'
+// 检测更新小程序版本
+import updateManager from './commons/functions/updateManager.js'
+
+const $app = { canvas, formatRich, authorize, updateManager }
+
+Vue.prototype.$app = $app
 
 Vue.prototype.$store = store
 Vue.config.productionTip = false

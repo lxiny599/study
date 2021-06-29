@@ -267,7 +267,7 @@ export default {
           imgUrl: this.pyqImageUrl,
           methods: {
             preserve() {
-              that.app
+              that.$app
                 .authorize('writePhotosAlbum', that.pyqImageUrl)
                 .then(() => {
                   uni.showToast({
@@ -296,7 +296,7 @@ export default {
             // 二维码
             ctx.save()
             ctx.translate(245, 924)
-            that.app.drawRoundRectPath(ctx, 260, 260, 16)
+            that.$app.canvas.drawRoundRectPath(ctx, 260, 260, 16)
             ctx.fillStyle = '#fff' // 若是给定了值就用给定的值否则给予默认值
             ctx.fill()
             ctx.clip()

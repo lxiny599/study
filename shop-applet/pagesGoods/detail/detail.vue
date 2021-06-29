@@ -484,7 +484,7 @@ export default {
               // 商品信息
               ctx.save()
               ctx.translate(20, 118)
-              that.app.drawRoundRectPath(ctx, 710, 952, 16)
+              that.$app.canvas.drawRoundRectPath(ctx, 710, 952, 16)
 
               // ctx.setLineWidth(20)
               // ctx.strokeStyle = '#f3f3f3'
@@ -505,7 +505,7 @@ export default {
               // 标题
               ctx.setFillStyle('#333')
               ctx.setFontSize(32)
-              that.app.textPrewrap(
+              that.$app.canvas.textPrewrap(
                 ctx,
                 that.goodsDetail.name,
                 21,
@@ -574,7 +574,7 @@ export default {
               ctx.restore()
               // 用户信息
               ctx.translate(20, 1095)
-              that.app.drawRoundRectPath(ctx, 711, 200, 16)
+              that.$app.canvas.drawRoundRectPath(ctx, 711, 200, 16)
               ctx.setLineWidth(4)
               ctx.setLineDash([20, 6])
               ctx.strokeStyle = '#FBDEC4'
@@ -584,7 +584,7 @@ export default {
               ctx.fill()
               //绘制圆形头像
               ctx.beginPath()
-              that.app.drawCircle({
+              that.$app.canvas.drawCircle({
                 ctx: ctx,
                 img: tempImgList[0],
                 avatarX: 36,
@@ -602,7 +602,15 @@ export default {
               ctx.setFillStyle('#FC564B')
               ctx.setFontSize(26)
               ctx.fillText('邀请您享受内部优惠券', 200, 110)
-              that.app.fillRoundRect(ctx, 190, 122, 284, 40, 20, '#FC4968')
+              that.$app.canvas.fillRoundRect(
+                ctx,
+                190,
+                122,
+                284,
+                40,
+                20,
+                '#FC4968'
+              )
               ctx.setFillStyle('#ffffff')
               ctx.setFontSize(22)
               ctx.fillText('长按二维码识别小程序', 206, 150)
@@ -690,7 +698,7 @@ export default {
           imgUrl: this.pyqImageUrl,
           methods: {
             saveImg() {
-              that.app
+              that.$app
                 .authorize('writePhotosAlbum', that.pyqImageUrl)
                 .then(() => {
                   that.app.msg('保存成功，去分享吧~')

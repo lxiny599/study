@@ -37,7 +37,7 @@ export default {
         })
         .then((res) => {
           console.log(res)
-          this.data = this.app
+          this.data = this.$app
             .formatRich(res.data.data)
             .replace(/<p/gi, '<p class="p_class"')
             .replace(/<span class="/gi, '<span class="span_class ')
