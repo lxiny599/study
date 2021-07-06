@@ -9,7 +9,12 @@
   <style>
     /* 秒数根据盒子的高度来定 */
     #indemo {
-      animation: move 8s linear infinite;  
+      animation: move 8s linear infinite;
+    }
+
+    /* 鼠标经过就停止动画 */
+    #indemo:hover {
+      animation-play-state: paused;
     }
 
     @keyframes move {
