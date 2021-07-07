@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/parent">Parent</router-link> |
@@ -9,7 +9,7 @@
       <router-link to="/vuexParent">VuexParent</router-link> |
       <router-link to="/attrsListeners">attrsListeners</router-link> |
       <router-link to="/List">List</router-link>
-    </div>
+    </div> -->
     <router-view />
   </div>
 </template>

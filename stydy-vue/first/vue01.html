@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Vue的模板的绑定数据的方法 -->
+        {{message}}
+    </div>
+    <script>
+        var app = new Vue({ //创建Vue的对象
+            el:'#app', //el属性：把当前Vue对象挂载到该id的标签上
+            data:{ //data: 是Vue对象中绑定的数据
+                message:'Hello Vue'
+            }
+        })
+    </script>
+</body>
+</html>
