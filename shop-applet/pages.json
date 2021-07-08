@@ -3,14 +3,43 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "呆萌价"
 			}
+		}, {
+			"path": "pagesOther/login/login",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
 	],
+	"subPackages": [
+    {
+      "root": "pagesOther",
+      "pages": [
+        {
+          "path": "login/login",
+          "style": {}
+        }
+      ]
+    }
+  ],
+  "preloadRule": {
+    "pages/index/index": {
+      "network": "all",
+      "packages": ["__APP__"]
+    },
+    // pagesOther
+    "pagesOther/login/login": {
+      "network": "all",
+      "packages": ["pagesOther"]
+    }
+  },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTitleText": "呆萌价",
+		"navigationBarBackgroundColor": "#f2f2f2",
+		"backgroundColor": "#f2f2f2"
 	}
 }
