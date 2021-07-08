@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第一天</title>
+</head>
+
+<body>
+  <!-- 1. 行内式的js 直接写到元素的内部 -->
+  <input type="button" value="唐伯虎" onclick="alert('秋香姐')">
+  <!-- 2. 外部js script 双标签 -->
+  <script src="my.js"></script>
+  <!-- 3.内嵌式的js -->
+  <script>
+    // 1. 单行注释  ctrl + /
+    /* 2. 多行注释  默认的快捷键 shift +  alt  + a
+       2. 多行注释  vscode 中修改多行注释的快捷键：  ctrl + shift + /
+    */
+
+    // ---------------------------- JS输入输出语句 ------------------------------
+    // 这是一个弹出输入框
+    prompt('请输入您的年龄');
+    // alert 弹出警示框 输出的 展示给用户的
+    alert('我是用来控制电脑网页弹出');
+    // console 控制台输出 给程序员测试用的  
+    console.log('我是程序员能看到的');
+
+    // -------------------------------- 变量 -----------------------------------
+    // 1. 声明了一个age 的变量 
+    var age;
+    // 2. 赋值  把值存入这个变量中
+    age = 18;
+    // 3. 输出结果 
+    console.log(age);
+    // 4. 变量的初始化 
+    var myname = '变量';
+    console.log(myname);
+
+    // 1. 用户输入姓名  存储到一个 myname的变量里面
+    var yourname = prompt('请输入您的名字');
+    // 2. 输出这个用户名
+    alert(yourname);
+
+    // 1. 更新变量
+    myname = '新变量';
+    console.log(myname);
+    // 2. 声明多个变量
+    // var age = 18;
+    // var address = '火影村';
+    // var gz = 2000;
+    var age = 18,
+      address = '火影村',
+      gz = 2000;
+    // 3. 声明变量的特殊情况
+    // 3.1 只声明不赋值 结果是？  程序也不知道里面存的是啥 所以结果是 undefined  未定义的
+    var sex;
+    console.log(sex); // undefined
+    // 3.2  不声明 不赋值 直接使用某个变量会报错滴
+    // console.log(tel);
+    // 3.3 不声明直接赋值使用
+    qq = 110;
+    console.log(qq);
+
+    /** 交换两个变量的值
+     * js 是编程语言有很强的逻辑性在里面： 实现这个要求的思路 先怎么做后怎么做 
+     * 1. 我们需要一个临时变量帮我们
+     * 2. 把apple1 给我们的临时变量 temp 
+     * 3. 把apple2 里面的苹果给 apple1 
+     * 4. 把临时变量里面的值 给 apple2 
+     */
+    var temp; // 声明了一个临时变量为空
+    var apple1 = '青苹果';
+    var apple2 = '红苹果';
+    temp = apple1; // 把右边给左边
+    apple1 = apple2;
+    apple2 = temp;
+    console.log(apple1);
+    console.log(apple2);
+
+
+    // ---------------------------- 变量数据类型 --------------------------------
+    // int num = 10;  java 
+    // var num; // 这里的num 我们是不确定属于哪种数据类型的
+    var num = 10; // num 属于数字型 
+    // js 的变量数据类型是只有程序在运行过程中，根据等号右边的值来确定的
+    var str = 'pink'; // str 字符串型
+    // js是动态语言 变量的数据类型是可以变化的
+    var x = 10; // x 是数字型 
+    x = 'pink'; // x 字符串型
+
+    // 数字型Number
+    var num = 10; // num 数字型 
+    var PI = 3.14 // PI 数字型
+    // 1. 八进制  0 ~ 7  我们程序里面数字前面加0 表示八进制
+    var num1 = 010;
+    console.log(num1); //  010  八进制 转换为 10进制 就是  8 
+    var num2 = 012;
+    console.log(num2);
+    // 2. 十六进制  0 ~ 9  a ~ f    #ffffff  数字的前面加 0x 表示十六进制
+    var num3 = 0x9;
+    console.log(num3);
+    var num4 = 0xa;
+    console.log(num4);
+    // 3. 数字型的最大值
+    console.log(Number.MAX_VALUE);
+    // 4. 数字型的最小值
+    console.log(Number.MIN_VALUE);
+    // 5. 无穷大
+    console.log(Number.MAX_VALUE * 2); // Infinity 无穷大  
+    // 6. 无穷小
+    console.log(-Number.MAX_VALUE * 2); // -Infinity 无穷大
+    // 7. 非数字
+    console.log('变量' - 100); // NaN
+    // isNaN() 这个方法用来判断非数字   并且返回一个值 如果是数字返回的是 false 如果不是数字返回的是true
+    console.log(isNaN(12)); // false
+    console.log(isNaN('变量')); // true
+
+    // 字符串型String
+    // 'pink'    '12'   'true'
+    var str = '字符串';
+    console.log(str);
+    // 字符串转义字符  都是用 \ 开头 但是这些转义字符写道引号里面
+    var str1 = "我是一个'高富帅'的\n字符串";
+    console.log(str1);
+    // 弹出警示框案例
+    alert('酷热难耐，火辣的太阳底下，我挺拔的身姿，成为了最为独特的风景。\n我审视四周，这里，是我的舞台，我就是天地间的王者。\n这一刻，我豪气冲天，终于大喊一声："收破烂啦～"');
+    // 1. 检测获取字符串的长度 length 
+    var str = 'my name is andy';
+    console.log(str.length); // 15
+    // 2. 字符串的拼接 + 只要有字符串和其他类型相拼接 最终的结果是字符串类型
+    console.log('沙漠' + '骆驼'); // 字符串的 沙漠骆驼
+    console.log('pink' + true); // pinktrue
+    console.log(12 + 12); // 24
+    console.log('12' + 12); // '1212'
+    console.log('pink老师' + 18 + '岁');
+    var age = 19;
+    console.log('pink老师age岁');
+    // 我们变量不要写到字符串里面，是通过和 字符串相连的方式实现的
+    console.log('pink老师' + age + '岁');
+    // 变量和字符串相连的口诀：  引引加加
+    console.log('pink老师' + age + '岁');
+    // 弹出一个输入框（prompt)，让用户输入年龄（用户输入）
+    // 把用户输入的值用变量保存起来,把刚才输入的年龄与所要输出的字符串拼接 （程序内部处理）
+    // 使用alert语句弹出警示框（输出结果）
+    var age = prompt('请输入您的年龄');
+    var str = '您今年已经' + age + '岁了';
+    alert(str);
+
+    // 布尔型Boolean
+    var flag = true; // flag 布尔型 
+    var flag1 = false; // flag1 布尔型
+    console.log(flag + 1); // true 参与加法运算当1来看
+    console.log(flag1 + 1); // false 参与加法运算当 0来看
+    // 如果一个变量声明未赋值 就是 undefined 未定义数据类型
+    var str;
+    console.log(str);
+    var variable = undefined;
+    console.log(variable + 'pink'); // undefinedpink
+    console.log(variable + 1); // NaN  undefined 和数字相加 最后的结果是 NaN
+    // null 空值
+    var space = null;
+    console.log(space + 'pink'); // nullpink
+    console.log(space + 1); // 1
+
+    // 获取变量数据类型
+    var num = 10;
+    console.log(typeof num); // number
+    var str = 'pink';
+    console.log(typeof str); // string
+    var flag = true;
+    console.log(typeof flag); // boolean
+    var vari = undefined;
+    console.log(typeof vari); // undefined
+    var timer = null;
+    console.log(typeof timer); // object
+    // prompt 取过来的值是 字符型的
+    var age = prompt('请输入您的年龄');
+    console.log(age);
+    console.log(typeof age);
+
+    // 字面量
+    console.log(18);
+    console.log('18');
+    console.log(true);
+    console.log(undefined);
+    console.log(null);
+
+    // 转换为字符型
+    // 1. 把数字型转换为字符串型 变量.toString()
+    var num = 10;
+    var str = num.toString();
+    console.log(str);
+    console.log(typeof str);
+    // 2. 我们利用 String(变量)   
+    console.log(String(num));
+    // 3. 利用 + 拼接字符串的方法实现转换效果 隐式转换
+    console.log(num + '');
+
+    // 转换为数字型
+    // var age = prompt('请输入您的年龄');
+    // 1. parseInt(变量)  可以把 字符型的转换为数字型 得到是整数
+    // console.log(parseInt(age));
+    console.log(parseInt('3.14')); // 3 取整
+    console.log(parseInt('3.94')); // 3 取整
+    console.log(parseInt('120px')); // 120 会去到这个px单位
+    console.log(parseInt('rem120px')); // NaN
+    // 2. parseFloat(变量) 可以把 字符型的转换为数字型 得到是小数 浮点数
+    console.log(parseFloat('3.14')); // 3.14
+    console.log(parseFloat('120px')); // 120 会去掉这个px单位
+    console.log(parseFloat('rem120px')); // NaN
+    // 3. 利用 Number(变量) 
+    var str = '123';
+    console.log(Number(str));
+    console.log(Number('12'));
+    // 4. 利用了算数运算 -  *  /  隐式转换
+    console.log('12' - 0); // 12
+    console.log('123' - '120');
+    console.log('123' * 1);
+
+    // 弹出一个输入框（prompt)，让用户输入出生年份 （用户输入）
+    // 把用户输入的值用变量保存起来，然后用今年的年份减去变量值，结果就是现在的年龄  （程序内部处理）
+    // 弹出警示框（alert) ， 把计算的结果输出 （输出结果）
+    var year = prompt('请您输入您的出生年份');
+    var age = 2018 - year; // year 取过来的是字符串型  但是这里用的减法 有隐式转换
+    alert('您今年已经' + age + '岁了');
+
+    // 先弹出第一个输入框，提示用户输入第一个值  保存起来
+    // 再弹出第二个框，提示用户输入第二个值  保存起来
+    // 把这两个值相加，并将结果赋给新的变量（注意数据类型转换）  
+    // 弹出警示框（alert) ， 把计算的结果输出 （输出结果）
+    var num1 = prompt('请您输入第一个值：');
+    var num2 = prompt('请您输入第二个值：');
+    var result = parseFloat(num1) + parseFloat(num2);
+    alert('您的结果是:' + result);
+
+    // 转换为布尔型
+    console.log(Boolean('')); // false
+    console.log(Boolean(0)); // false
+    console.log(Boolean(NaN)); // false
+    console.log(Boolean(null)); // false
+    console.log(Boolean(undefined)); // false
+    console.log('------------------------------');
+    console.log(Boolean('123'));
+    console.log(Boolean('你好吗'));
+    console.log(Boolean('我很好'));
+  </script>
+
+  <script>
+
+  </script>
+
+</body>
+
+</html>

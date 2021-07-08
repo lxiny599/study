@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第三天</title>
+</head>
+
+<body>
+  <script>
+    // ------------------------------- 循环语句 ---------------------------------
+    // 循环的目的：可以重复执行某些代码
+    console.log('媳妇我错了');
+    console.log('媳妇我错了');
+    console.log('媳妇我错了');
+    console.log('---------------------');
+    for (var i = 1; i <= 10; i++) {
+      console.log('媳妇我错了');
+    }
+
+    // for循环
+    // 1. for 重复执行某些代码， 通常跟计数有关系
+    // 2. for 语法结构
+    // for (初始化变量; 条件表达式; 操作表达式) {
+    //   // 循环体
+    // }
+    // 3. 初始化变量 就是用var 声明的一个普通变量， 通常用于作为计数器使用 
+    // 4. 条件表达式 就是用来决定每一次循环是否继续执行 就是终止的条件
+    // 5. 操作表达式 是每次循环最后执行的代码 经常用于我们计数器变量进行更新（递增或者递减）
+    // 6. 代码体验 我们重复打印10句 你好
+    for (var i = 1; i <= 10; i++) {
+      console.log('你好吗');
+    }
+
+    // for 循环的执行过程
+    for (var i = 1; i <= 10; i++) {
+      console.log('你好吗');
+    }
+    // 1. 首先执行里面的计数器变量  var i = 1 .但是这句话在for 里面只执行一次  index
+    // 2. 去 i <= 10 来判断是否满足条件， 如果满足条件  就去执行 循环体  不满足条件退出循环 
+    // 3. 最后去执行 i++   i++是单独写的代码 递增  第一轮结束 
+    // 4. 接着去执行 i <= 10 如果满足条件  就去执行 循环体  不满足条件退出循环   第二轮
+
+    // for 循环可以执行相同的代码
+    for (var i = 1; i <= 10; i++) {
+      console.log('媳妇我错了');
+    }
+    // 我们可以让用户控制输出的次数
+    var num = prompt('请您输入次数');
+    for (var i = 1; i <= num; i++) {
+      console.log('媳妇我错了');
+    }
+
+    // for 循环可以重复执行不同的代码  因为我们有计数器变量 i 的存在 i每次循环值都会变化
+    // 我们想要输出1个人 1~100岁
+    // for (var i = 1; i <= 100; i++) {
+    //   console.log('这个人今年' + i + '岁了');
+    // }
+    for (var i = 1; i <= 100; i++) {
+      if (i == 1) {
+        console.log('这个人今年1岁了，他出生了');
+      } else if (i == 100) {
+        console.log('这个人今年100岁了，他死了');
+      } else {
+        console.log('这个人今年' + i + '岁了');
+      }
+    }
+
+    // for 循环重复执行某些操作 比如说我们做了100次加法运算
+    // 求 1~100 之间的整数累加和
+    // 需要循环100次，我们需要一个计数器  i  
+    // 我们需要一个存储结果的变量 sum ，但是初始值一定是 0
+    // 核心算法：1 + 2 + 3 + 4 ....   ，sum  =  sum + i;
+    var sum = 0; // 求和 的变量
+    for (var i = 1; i <= 100; i++) {
+      // sum = sum + i;
+      sum += i;
+    }
+    console.log(sum);
+
+    // 1. 求1-100之间所有数的平均值   需要一个 sum 和的变量 还需要一个平均值 average 变量
+    var sum = 0;
+    var average = 0;
+    for (var i = 1; i <= 100; i++) {
+      sum = sum + i;
+    }
+    average = sum / 100;
+    console.log(average);
+    // 2. 求1-100之间所有偶数和奇数的和   我们需要一个偶数的和变量 even  还需要一个奇数 odd
+    var even = 0;
+    var odd = 0;
+    for (var i = 1; i <= 100; i++) {
+      if (i % 2 == 0) {
+        even = even + i;
+      } else {
+        odd = odd + i;
+      }
+    }
+    console.log('1~100 之间所有的偶数和是' + even);
+    console.log('1~100 之间所有的奇数和是' + odd);
+    // 3. 求1-100之间所有能被3整除的数字的和   
+    var result = 0;
+    for (var i = 1; i <= 100; i++) {
+      if (i % 3 == 0) {
+        // result = result + i;
+        result += i;
+      }
+    }
+    console.log('1~100之间能够被3整数的数字的和是：' + result);
+
+    // 弹出输入框输入总的班级人数(num)
+    // 依次输入学生的成绩（ 保存起来 score）， 此时我们需要用到
+    // for 循环， 弹出的次数跟班级总人数有关系 条件表达式 i <= num
+    // 进行业务处理: 计算成绩。 先求总成绩（ sum）， 之后求平均成绩（ average）
+    // 弹出结果
+    var num = prompt('请输入班级的总人数:'); // num 总的班级人数
+    var sum = 0; // 求和的变量
+    var average = 0; // 求平均值的变量
+    for (var i = 1; i <= num; i++) {
+      var score = prompt('请您输入第' + i + '个学生成绩');
+      // 因为从prompt取过来的数据是 字符串型的需要转换为数字型
+      sum = sum + parseFloat(score);
+    }
+    average = sum / num;
+    alert('班级总的成绩是' + sum);
+    alert('班级平均分是：' + average);
+
+    // 一行打印五个星星 
+    // console.log('★★★★★');
+    // for (var i = 1; i <= 5; i++) {
+    //     console.log('★');
+    // }
+    // var str = '';
+    // for (var i = 1; i <= 5; i++) {
+    //     str = str + '★';
+    // }
+    // console.log(str);
+    var num = prompt('请输入星星的个数');
+    var str = '';
+    for (var i = 1; i <= num; i++) {
+      str = str + '★'
+    }
+    console.log(str);
+
+    // 1. 双重for循环 语法结构
+    // for (外层的初始化变量; 外层的条件表达式; 外层的操作表达式) {
+    //   for (里层的初始化变量; 里层的条件表达式; 里层的操作表达式) {
+    //     // 执行语句;
+    //   }
+    // }
+    // 2. 我们可以把里面的循环看做是外层循环的语句
+    // 3. 外层循环循环一次， 里面的循环执行全部
+    // 4. 代码验证
+    for (var i = 1; i <= 3; i++) {
+      console.log('这是外层循环第' + i + '次');
+      for (var j = 1; j <= 3; j++) {
+        console.log('这是里层的循环第' + j + '次');
+      }
+    }
+
+    // 打印五行五列星星
+    var str = '';
+    for (var i = 1; i <= 5; i++) { // 外层循环负责打印五行
+      for (var j = 1; j <= 5; j++) { // 里层循环负责一行打印五个星星
+        str = str + '★';
+      }
+      // 如果一行打印完毕5个星星就要另起一行 加 \n
+      str = str + '\n';
+    }
+    console.log(str);
+
+    // 打印n行n列的星星
+    var rows = prompt('请您输入行数:');
+    var cols = prompt('请您输入列数:');
+    var str = '';
+    for (var i = 1; i <= rows; i++) {
+      for (var j = 1; j <= cols; j++) {
+        str = str + '★';
+      }
+      str += '\n';
+    }
+    console.log(str);
+
+    // 打印倒三角形案例
+    var str = '';
+    for (var i = 1; i <= 10; i++) { // 外层循环控制行数
+      for (var j = i; j <= 10; j++) { // 里层循环打印的个数不一样  j = i
+        str = str + '★';
+      }
+      str += '\n';
+    }
+    console.log(str);
+
+    // 九九乘法表
+    // 一共有9行，但是每行的个数不一样，因此需要用到双重 for 循环
+    // 外层的 for 循环控制行数 i ，循环9次 ，可以打印 9 行  
+    // 内层的 for 循环控制每行公式  j  
+    // 核心算法：每一行 公式的个数正好和行数一致， j <= i;
+    // 每行打印完毕，都需要重新换一行
+    var str = '';
+    for (var i = 1; i <= 9; i++) { // 外层循环控制行数
+      for (var j = 1; j <= i; j++) { // 里层循环控制每一行的个数  j <= i
+        // 1 × 2 = 2
+        str += j + '×' + i + '=' + i * j + '\t';
+      }
+      str += '\n';
+    }
+    console.log(str);
+
+    // while循环
+    // 1. while 循环语法结构  while 当...的时候
+    // while (条件表达式) {
+    //   // 循环体
+    // }
+    // 2. 执行思路  当条件表达式结果为true 则执行循环体 否则 退出循环
+    // 3. 代码验证
+    var num = 1;
+    while (num <= 10) {
+      console.log('好啊有');
+      num++;
+    }
+    // 4. 里面应该也有计数器 初始化变量
+    // 5. 里面应该也有操作表达式  完成计数器的更新 防止死循环
+
+    // while循环案例
+    // 1. 打印人的一生，从1岁到100岁
+    var i = 1;
+    while (i <= 100) {
+      console.log('这个人今年' + i + '岁了');
+      i++;
+    }
+    // 2. 计算 1 ~ 100 之间所有整数的和
+    var sum = 0;
+    var j = 1;
+    while (j <= 100) {
+      sum += j;
+      j++
+    }
+    console.log(sum);
+
+    // 3. 弹出一个提示框， 你爱我吗？  如果输入我爱你，就提示结束，否则，一直询问。
+    var message = prompt('你爱我吗?');
+    while (message !== '我爱你') {
+      message = prompt('你爱我吗?');
+    }
+    alert('我也爱你啊！');
+
+    // 1.do while 循环 语法结构
+    // do {
+    //   // 循环体
+    // } while (条件表达式)
+    // 2. 执行思路 跟while不同的地方在于 do while 先执行一次循环体 在判断条件 如果条件表达式结果为真，则继续执行循环体，否则退出循环
+    // 3. 代码验证
+    var i = 1;
+    do {
+      console.log('how are you?');
+      i++;
+    } while (i <= 100)
+    // 4. 我们的do while 循环体至少执行一次
+
+    // while循环案例
+    // 1. 打印人的一生，从1岁到100岁
+    var i = 1;
+    do {
+      console.log('这个人今年' + i + '岁了');
+      i++;
+    } while (i <= 100)
+    // 2. 计算 1 ~ 100 之间所有整数的和
+    var sum = 0;
+    var j = 1;
+    do {
+      sum += j;
+      j++;
+    } while (j <= 100)
+    console.log(sum);
+
+    // 3. 弹出一个提示框， 你爱我吗？  如果输入我爱你，就提示结束，否则，一直询问。
+    do {
+      var message = prompt('你爱我吗?');
+    } while (message !== '我爱你')
+    alert('我也爱你啊');
+
+    // continue
+    // continue 关键字   退出本次（当前次的循环）  继续执行剩余次数循环
+    for (var i = 1; i <= 5; i++) {
+      if (i == 3) {
+        continue; // 只要遇见 continue就退出本次循环 直接跳到 i++
+      }
+      console.log('我正在吃第' + i + '个包子');
+
+    }
+    // 1. 求1~100 之间， 除了能被7整除之外的整数和 
+    var sum = 0;
+    for (var i = 1; i <= 100; i++) {
+      if (i % 7 == 0) {
+        continue;
+      }
+      sum += i;
+    }
+    console.log(sum);
+
+    // break
+    // break 退出整个循环
+    for (var i = 1; i <= 5; i++) {
+      if (i == 3) {
+        break;
+      }
+      console.log('我正在吃第' + i + '个包子');
+    }
+  </script>
+</body>
+
+</html>
